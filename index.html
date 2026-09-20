@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+
+  <meta name="theme-color" content="#3A0A18" />
+
+  <title>Harshil & Pranali | Engagement | 27.12.2026</title>
+
+  <meta
+    name="description"
+    content="Join Harshil & Pranali for their engagement celebration on Sunday, 27 December 2026 at Sai Palace, Mira Road."
+  />
+
+  <meta
+    property="og:title"
+    content="Harshil & Pranali | Engagement | 27.12.2026"
+  />
+
+  <meta
+    property="og:description"
+    content="Two families, two traditions, one beautiful beginning."
+  />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/social-preview.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Great+Vibes&family=Playfair+Display:wght@500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+
+  <!-- =====================================================
+       LANGUAGE SELECTION
+       ===================================================== -->
+
+  <div
+    class="language-gate"
+    id="languageGate"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="languageTitle"
+  >
+
+    <div class="language-gate__backdrop"></div>
+
+    <div class="language-gate__panel">
+
+      <div class="language-gate__monogram">
+        H<span>&amp;</span>P
+      </div>
+
+      <p class="language-gate__couple">
+        HARSHIL &amp; PRANALI
+      </p>
+
+      <p class="language-gate__tagline">
+        Two hearts, a beautiful journey
+      </p>
+
+      <div class="language-gate__ornament">
+        <i></i>
+        <b>✦</b>
+        <i></i>
+      </div>
+
+      <h2 id="languageTitle">
+        Choose your language
+      </h2>
+
+      <p class="language-gate__lead">
+        Let’s begin our story together.
+      </p>
+
+      <div class="language-options">
+
+        <button type="button" data-language="en">
+          <strong>English</strong>
+          <span>English</span>
+        </button>
+
+        <button type="button" data-language="hi">
+          <strong>हिन्दी</strong>
+          <span>Hindi</span>
+        </button>
+
+        <button type="button" data-language="gu">
+          <strong>ગુજરાતી</strong>
+          <span>Gujarati</span>
+        </button>
+
+        <button type="button" data-language="mr">
+          <strong>मराठी</strong>
+          <span>Marathi</span>
+        </button>
+
+      </div>
+
+      <p class="language-gate__footer">
+        Same Souls, New Beginnings ♥
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       MUSIC
+       ===================================================== -->
+
+  <audio
+    id="engagementMusic"
+    preload="auto"
+    loop
+  >
+    <source
+      src="/music/engagement.mp3"
+      type="audio/mpeg"
+    />
+  </audio>
+
+
+  <button
+    class="music-toggle is-paused"
+    id="musicToggle"
+    type="button"
+    aria-label="Play music"
+  >
+    <span class="music-toggle__icon">♫</span>
+    <span class="music-toggle__label">Music</span>
+  </button>
+
+
+  <!-- =====================================================
+       ROSE PETALS + GOLD PARTICLES CANVAS
+       ===================================================== -->
+
+  <canvas
+    id="ambientCanvas"
+    class="ambient-canvas"
+    aria-hidden="true"
+  ></canvas>
+
+
+  <div class="site-shell">
+
+
+    <!-- ===================================================
+         HERO
+         =================================================== -->
+
+    <header class="hero section" id="home">
+
+      <nav
+        class="topbar container"
+        aria-label="Primary navigation"
+      >
+
+        <a href="#story">
+          Our Story
+        </a>
+
+        <a href="#celebrations">
+          Celebration
+        </a>
+
+        <a href="#venue">
+          Venue
+        </a>
+
+      </nav>
+
+
+      <div class="hero-grid container">
+
+
+        <div class="hero-copy reveal">
+
+          <p class="invocation">
+            ॥ श्री गणेशाय नमः ॥
+          </p>
+
+          <p class="eyebrow">
+            With full hearts, a new chapter begins
+          </p>
+
+          <h1>
+            Harshil
+            <span>&amp;</span>
+            Pranali
+          </h1>
+
+          <p class="hero-subtitle">
+            invite you to celebrate their engagement
+          </p>
+
+
+          <div class="ornament">
+            <i></i>
+            <b>✦</b>
+            <i></i>
+          </div>
+
+
+          <div class="event-meta">
+
+            <p>
+              <span>◷</span>
+              Sunday, 27 December 2026
+            </p>
+
+            <p>
+              <span>⌖</span>
+              Sai Palace, Mira Road
+            </p>
+
+          </div>
+
+
+          <p class="script">
+            Same souls. A beautiful new beginning.
+          </p>
+
+        </div>
+
+
+        <div class="hero-art character-stage reveal">
+
+          <div class="arch arch--outer"></div>
+          <div class="arch arch--inner"></div>
+
+          <img
+            class="character-fallback"
+            src="/assets/v6/hero.png"
+            alt="Harshil and Pranali engagement illustration"
+          />
+
+        </div>
+
+      </div>
+
+
+      <a
+        class="scroll-cue"
+        href="#family"
+      >
+        Meet our families
+        <span>↓</span>
+      </a>
+
+    </header>
+
+
+    <main>
+
+
+      <!-- =================================================
+           FAMILY
+           ================================================= -->
+
+      <section class="section family" id="family">
+
+        <div class="container narrow reveal">
+
+          <p class="eyebrow gold">
+            With the blessings of our families
+          </p>
+
+          <h2>
+            Two families.
+            <em>One beautiful beginning.</em>
+          </h2>
+
+
+          <div class="family-names">
+
+            <span>
+              The Goradia Family
+            </span>
+
+            <b>&amp;</b>
+
+            <span>
+              The Parab Family
+            </span>
+
+          </div>
+
+
+          <p class="lead">
+            Joyfully inviting you to celebrate this
+            beautiful new beginning with Harshil &amp; Pranali.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           STORY
+           ================================================= -->
+
+      <section class="section story" id="story">
+
+        <div class="container">
+
+          <header class="section-heading reveal">
+
+            <p class="eyebrow gold">
+              Our Story
+            </p>
+
+            <h2>
+              A love that crossed
+              <em>every distance.</em>
+            </h2>
+
+            <p class="lead">
+              What began close to home grew into a love
+              that carried us through every season,
+              every distance and every dream.
+            </p>
+
+          </header>
+
+
+          <div class="story-grid">
+
+            <figure class="story-art reveal">
+
+              <img
+                src="/assets/v6/story.png"
+                alt="Harshil and Pranali story illustration"
+              />
+
+              <figcaption>
+                From neighbours to forever ♥
+              </figcaption>
+
+            </figure>
+
+
+            <div class="story-copy reveal">
+
+              <div class="stats">
+
+                <div>
+                  <strong>10+ years</strong>
+                  <span>of us</span>
+                </div>
+
+                <div>
+                  <strong>6 years</strong>
+                  <span>of long distance</span>
+                </div>
+
+                <div>
+                  <strong>One forever</strong>
+                  <span>27.12.2026</span>
+                </div>
+
+              </div>
+
+
+              <p>
+                Across different countries and changing routines,
+                we found our way back to one another in countless
+                calls, little traditions and memories that made
+                the miles feel smaller.
+              </p>
+
+
+              <p>
+                Now, after more than a decade of growing together,
+                we cannot wait to bring our families, traditions
+                and favourite people into one room to celebrate
+                the beginning of forever.
+              </p>
+
+
+              <p class="script">
+                The distance ends here.
+                The next chapter begins together. ♥
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           CELEBRATIONS
+           ================================================= -->
+
+      <section
+        class="section celebrations"
+        id="celebrations"
+      >
+
+        <div class="container">
+
+          <header class="section-heading reveal">
+
+            <p class="eyebrow gold">
+              The Celebration
+            </p>
+
+            <h2>
+              Three beautiful ceremonies.
+              <em>One unforgettable celebration.</em>
+            </h2>
+
+            <p class="lead">
+              Two families. Two traditions.
+              One beautiful beginning.
+            </p>
+
+          </header>
+
+
+          <div class="timeline">
+
+
+            <article class="event-card reveal">
+
+              <span class="time">
+                04:00 PM
+              </span>
+
+              <h3>
+                Sakharpuda
+              </h3>
+
+              <p class="tradition">
+                Parab family tradition
+              </p>
+
+              <p>
+                A cherished beginning filled with sweetness,
+                family blessings and the joy of two families
+                coming closer.
+              </p>
+
+              <a href="#sakharpuda">
+                Discover the ceremony →
+              </a>
+
+            </article>
+
+
+            <article class="event-card reveal">
+
+              <span class="time">
+                06:00 PM
+              </span>
+
+              <h3>
+                Gol Dhana &amp; Chunari
+              </h3>
+
+              <p class="tradition">
+                Goradia family tradition
+              </p>
+
+              <p>
+                Celebrating the joining of two families
+                with warmth, colour and heartfelt blessings.
+              </p>
+
+              <a href="#goddhana">
+                Discover the ceremony →
+              </a>
+
+            </article>
+
+
+            <article class="event-card reveal">
+
+              <span class="time">
+                08:00 PM
+              </span>
+
+              <h3>
+                Ring Ceremony &amp; Sangeet
+              </h3>
+
+              <p class="tradition">
+                Our celebration
+              </p>
+
+              <p>
+                The rings, the music, the dancing and
+                everyone we love celebrating beside us.
+              </p>
+
+              <a href="#sangeet">
+                Discover the ceremony →
+              </a>
+
+            </article>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           SAKHARPUDA
+           ================================================= -->
+
+      <section
+        class="section ceremony"
+        id="sakharpuda"
+      >
+
+        <div class="container ceremony-grid">
+
+
+          <div class="ceremony-art reveal">
+
+            <img
+              src="/assets/v6/sakharpuda.png"
+              alt="Sakharpuda ceremony illustration"
+            />
+
+          </div>
+
+
+          <div class="ceremony-copy reveal">
+
+            <p class="eyebrow gold">
+              Parab family tradition
+            </p>
+
+            <h2>
+              Sakharpuda
+            </h2>
+
+
+            <div class="detail-row">
+
+              <span>04:00 PM</span>
+              <span>27 December 2026</span>
+              <span>Sai Palace</span>
+
+            </div>
+
+
+            <p>
+              We begin with Sakharpuda, a cherished
+              Maharashtrian tradition filled with sweetness,
+              family blessings and the joy of two families
+              coming closer.
+            </p>
+
+
+            <aside>
+              A graceful beginning to the day, honouring
+              tradition and the blessings that will carry
+              us into our life together.
+            </aside>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           GOL DHANA
+           ================================================= -->
+
+      <section
+        class="section ceremony"
+        id="goddhana"
+      >
+
+        <div
+          class="container ceremony-grid ceremony-grid--reverse"
+        >
+
+
+          <div class="ceremony-art reveal">
+
+            <img
+              src="/assets/v6/goddhana.png"
+              alt="Gol Dhana and Chunari ceremony illustration"
+            />
+
+          </div>
+
+
+          <div class="ceremony-copy reveal">
+
+            <p class="eyebrow gold">
+              Goradia family tradition
+            </p>
+
+            <h2>
+              Gol Dhana &amp; Chunari
+            </h2>
+
+
+            <div class="detail-row">
+
+              <span>06:00 PM</span>
+              <span>27 December 2026</span>
+              <span>Sai Palace</span>
+
+            </div>
+
+
+            <p>
+              Our Gujarati traditions follow with Gol Dhana
+              and Chunari, celebrating the joining of two
+              families with warmth, colour and heartfelt
+              blessings.
+            </p>
+
+
+            <aside>
+              A meaningful moment where family, heritage
+              and love come together in one beautifully
+              shared tradition.
+            </aside>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           RING CEREMONY & SANGEET
+           ================================================= -->
+
+      <section
+        class="section ceremony"
+        id="sangeet"
+      >
+
+        <div class="container ceremony-grid">
+
+
+          <div class="ceremony-art reveal">
+
+            <img
+              src="/assets/v6/sangeet.png"
+              alt="Ring Ceremony and Sangeet illustration"
+            />
+
+          </div>
+
+
+          <div class="ceremony-copy reveal">
+
+            <p class="eyebrow gold">
+              Our celebration
+            </p>
+
+            <h2>
+              Ring Ceremony &amp; Sangeet
+            </h2>
+
+
+            <div class="detail-row">
+
+              <span>08:00 PM</span>
+              <span>27 December 2026</span>
+              <span>Sai Palace</span>
+
+            </div>
+
+
+            <p>
+              As evening arrives, we move into the moment
+              we have been waiting for: the rings, the music,
+              the dancing and everyone we love celebrating
+              beside us.
+            </p>
+
+
+            <aside>
+              Come ready for romance, music, joyful dancing
+              and just the right touch of Bollywood magic.
+            </aside>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           DRESS CODE
+           ================================================= -->
+
+      <section
+        class="section dress"
+        id="dress"
+      >
+
+        <div class="container">
+
+          <header class="section-heading reveal">
+
+            <p class="eyebrow gold">
+              Dress Code
+            </p>
+
+            <h2>
+              Dress for every
+              <em>beautiful chapter.</em>
+            </h2>
+
+          </header>
+
+
+          <div class="dress-grid">
+
+
+            <article class="info-card reveal">
+
+              <span class="time">
+                04 PM – 08 PM
+              </span>
+
+              <h3>
+                Traditional Indian
+              </h3>
+
+              <p>
+                Sakharpuda · Gol Dhana &amp; Chunari
+              </p>
+
+
+              <div class="dress-details">
+
+                <p>
+                  <b>Women</b>
+                  Saree, lehenga or elegant traditional wear
+                </p>
+
+                <p>
+                  <b>Men</b>
+                  Kurta, bandhgala or traditional Indian wear
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="info-card reveal">
+
+              <span class="time">
+                08 PM onwards
+              </span>
+
+              <h3>
+                Bollywood Glam
+              </h3>
+
+              <p>
+                Ring Ceremony &amp; Sangeet
+              </p>
+
+
+              <div class="dress-details">
+
+                <p>
+                  <b>Women</b>
+                  Glamorous Indian or Indo-Western evening wear
+                </p>
+
+                <p>
+                  <b>Men</b>
+                  Indo-Western, bandhgalas or sharp evening looks
+                </p>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           SWEET CAROLINE
+           ================================================= -->
+
+      <section class="section request">
+
+        <div class="container narrow reveal">
+
+          <p class="eyebrow gold">
+            A special request from us
+          </p>
+
+          <h2>
+            Come ready for
+            <em>Sweet Caroline.</em>
+          </h2>
+
+          <p class="lead">
+            There is one song we would love everyone to
+            share with us. Give it a listen before the
+            evening and come ready to sing along.
+          </p>
+
+
+          <a
+            class="button button--ghost"
+            href="https://www.youtube.com/watch?v=ty1dwBCR6D0"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Listen on YouTube →
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           VENUE
+           ================================================= -->
+
+      <section
+        class="section venue"
+        id="venue"
+      >
+
+        <div class="container venue-grid">
+
+
+          <div class="venue-copy reveal">
+
+            <p class="eyebrow gold">
+              The Venue
+            </p>
+
+            <h2>
+              A beautiful setting for a celebration
+              we will remember forever.
+            </h2>
+
+            <p class="lead">
+              Sai Palace, Mira Road
+            </p>
+
+
+            <div class="actions">
+
+              <a
+                class="button"
+                href="https://maps.app.goo.gl/LYDEGDFgfHN9hb9C6"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open in Google Maps
+              </a>
+
+
+              <a
+                class="button button--ghost"
+                href="/harshil-pranali-engagement.ics"
+                download
+              >
+                Add to Calendar
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <div class="venue-art reveal">
+
+            <img
+              src="/assets/v6/venue.png"
+              alt="Sai Palace engagement venue illustration"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- ===================================================
+         FOOTER
+         =================================================== -->
+
+    <footer class="footer">
+
+      <div class="container footer-grid reveal">
+
+
+        <div>
+
+          <h2>
+            #sonugotchillllled
+          </h2>
+
+          <p>
+            More than a decade of memories,
+            now gathered into one unforgettable celebration.
+          </p>
+
+        </div>
+
+
+        <div class="footer-prompts">
+
+          <span>
+            ♡ Share your favourite moments
+          </span>
+
+          <span>
+            ♬ Dance like nobody is watching
+          </span>
+
+          <span>
+            ✦ Make memories with us
+          </span>
+
+        </div>
+
+
+        <div class="footer-signoff">
+
+          <strong>
+            Harshil &amp; Pranali
+          </strong>
+
+          <span>
+            27.12.2026 · Sai Palace, Mira Road
+          </span>
+
+        </div>
+
+      </div>
+
+    </footer>
+
+  </div>
+
+
+  <!-- IMPORTANT: your JS is inside src -->
+
+  <script
+    type="module"
+    src="/src/main.js"
+  ></script>
+
+</body>
+</html>
