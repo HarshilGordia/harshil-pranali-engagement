@@ -1211,33 +1211,16 @@ const entryButtons = document.querySelectorAll("[data-entry-mode]");
 let selectedLanguage =
   localStorage.getItem("engagement-language") || "en";
 
-/* Add language-specific files later using these names.
-   Until they exist, the current engagement.mp3 is the safe fallback. */
-const languageTracks = {
-  en: "/music/english.mp3",
-  hi: "/music/hindi.mp3",
-  gu: "/music/gujarati.mp3",
-  mr: "/music/marathi.mp3",
-};
+/* One soundtrack for every language for now. */
+const soundtrack = "/music/engagement.mp3";
 
-const fallbackTrack = "/music/engagement.mp3";
-
-function setMusicTrack(language) {
+function setMusicTrack() {
   if (!music) return;
-  selectedLanguage = language || "en";
-  const preferred = languageTracks[selectedLanguage] || fallbackTrack;
-  music.dataset.preferredTrack = preferred;
-  music.src = preferred;
-  music.load();
+  if (!music.src.endsWith(soundtrack)) {
+    music.src = soundtrack;
+    music.load();
+  }
 }
-
-function useFallbackTrack() {
-  if (!music || music.src.endsWith("/music/engagement.mp3")) return;
-  music.src = fallbackTrack;
-  music.load();
-}
-
-music?.addEventListener("error", useFallbackTrack);
 
 async function playMusic() {
   if (!music) return;
@@ -1248,18 +1231,7 @@ async function playMusic() {
     musicToggle?.classList.remove("is-paused");
     musicToggle?.setAttribute("aria-label", "Pause music");
   } catch {
-    /* If a language track has not been uploaded yet, retry with
-       the existing track. Browser gesture restrictions are still respected. */
-    if (!music.src.endsWith("/music/engagement.mp3")) {
-      useFallbackTrack();
-      try {
-        await music.play();
-        musicToggle?.classList.remove("is-paused");
-        musicToggle?.setAttribute("aria-label", "Pause music");
-        return;
-      } catch {}
-    }
-    musicToggle?.classList.add("is-paused");
+musicToggle?.classList.add("is-paused");
     musicToggle?.setAttribute("aria-label", "Play music");
   }
 }
@@ -1276,7 +1248,7 @@ languageButtons.forEach((button) => {
   button.addEventListener("click", () => {
     selectedLanguage = button.dataset.language || "en";
     applyLanguage(selectedLanguage);
-    setMusicTrack(selectedLanguage);
+    setMusicTrack();
 
     document.querySelector(".language-options")?.setAttribute("hidden", "");
     document.querySelector(".language-gate__lead")?.setAttribute("hidden", "");
@@ -1306,7 +1278,7 @@ musicToggle?.addEventListener("click", async () => {
   if (!music) return;
 
   if (music.paused) {
-    if (!music.src) setMusicTrack(selectedLanguage);
+    setMusicTrack();
     await playMusic();
   } else {
     music.pause();
