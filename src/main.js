@@ -1108,6 +1108,12 @@ function applyLanguage(
 
 
   setText(
+    '.topbar a[href="#dress"]',
+    text.dress
+  );
+
+
+  setText(
     '.topbar a[href="#venue"]',
     text.venue
   );
@@ -1194,192 +1200,155 @@ function applyLanguage(
 
 
 /* =========================================================
-   MUSIC
+   MUSIC + ENTRY CHOICE
    ========================================================= */
 
-const music =
-  document.getElementById(
-    "engagementMusic"
-  );
+const music = document.getElementById("engagementMusic");
+const musicToggle = document.getElementById("musicToggle");
+const entryOptions = document.getElementById("entryOptions");
+const entryButtons = document.querySelectorAll("[data-entry-mode]");
 
+let selectedLanguage =
+  localStorage.getItem("engagement-language") || "en";
 
-const musicToggle =
-  document.getElementById(
-    "musicToggle"
-  );
+/* Add language-specific files later using these names.
+   Until they exist, the current engagement.mp3 is the safe fallback. */
+const languageTracks = {
+  en: "/music/english.mp3",
+  hi: "/music/hindi.mp3",
+  gu: "/music/gujarati.mp3",
+  mr: "/music/marathi.mp3",
+};
 
+const fallbackTrack = "/music/engagement.mp3";
+
+function setMusicTrack(language) {
+  if (!music) return;
+  selectedLanguage = language || "en";
+  const preferred = languageTracks[selectedLanguage] || fallbackTrack;
+  music.dataset.preferredTrack = preferred;
+  music.src = preferred;
+  music.load();
+}
+
+function useFallbackTrack() {
+  if (!music || music.src.endsWith("/music/engagement.mp3")) return;
+  music.src = fallbackTrack;
+  music.load();
+}
+
+music?.addEventListener("error", useFallbackTrack);
 
 async function playMusic() {
-
-  if (!music) {
-    return;
-  }
-
-
-  music.volume =
-    0.42;
-
+  if (!music) return;
+  music.volume = 0.42;
 
   try {
-
     await music.play();
-
-
-    musicToggle
-      ?.classList
-      .remove(
-        "is-paused"
-      );
-
-
-    musicToggle
-      ?.setAttribute(
-        "aria-label",
-        "Pause music"
-      );
-
+    musicToggle?.classList.remove("is-paused");
+    musicToggle?.setAttribute("aria-label", "Pause music");
+  } catch {
+    /* If a language track has not been uploaded yet, retry with
+       the existing track. Browser gesture restrictions are still respected. */
+    if (!music.src.endsWith("/music/engagement.mp3")) {
+      useFallbackTrack();
+      try {
+        await music.play();
+        musicToggle?.classList.remove("is-paused");
+        musicToggle?.setAttribute("aria-label", "Pause music");
+        return;
+      } catch {}
+    }
+    musicToggle?.classList.add("is-paused");
+    musicToggle?.setAttribute("aria-label", "Play music");
   }
-
-  catch {
-
-    musicToggle
-      ?.classList
-      .add(
-        "is-paused"
-      );
-
-
-    musicToggle
-      ?.setAttribute(
-        "aria-label",
-        "Play music"
-      );
-
-  }
-
 }
-
 
 function closeLanguageGate() {
-
-  if (!languageGate) {
-    return;
-  }
-
-
-  languageGate
-    .classList
-    .add(
-      "is-closing"
-    );
-
-
-  window.setTimeout(
-    () => {
-
-      languageGate.hidden =
-        true;
-
-    },
-    430
-  );
-
+  if (!languageGate) return;
+  languageGate.classList.add("is-closing");
+  window.setTimeout(() => {
+    languageGate.hidden = true;
+  }, 430);
 }
 
+languageButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedLanguage = button.dataset.language || "en";
+    applyLanguage(selectedLanguage);
+    setMusicTrack(selectedLanguage);
 
-/* Language selection also starts music.
-   This user click allows audio playback on iPhone Safari. */
+    document.querySelector(".language-options")?.setAttribute("hidden", "");
+    document.querySelector(".language-gate__lead")?.setAttribute("hidden", "");
+    document.querySelector("#languageTitle").textContent =
+      selectedLanguage === "hi" ? "आप कैसे प्रवेश करना चाहेंगे?" :
+      selectedLanguage === "gu" ? "તમે કેવી રીતે પ્રવેશ કરવા માંગો છો?" :
+      selectedLanguage === "mr" ? "तुम्हाला कसे प्रवेश करायचे आहे?" :
+      "How would you like to enter?";
 
-languageButtons.forEach(
-  (button) => {
+    if (entryOptions) entryOptions.hidden = false;
+  });
+});
 
-    button.addEventListener(
-      "click",
-      async () => {
-
-        const language =
-          button.dataset.language ||
-          "en";
-
-
-        applyLanguage(
-          language
-        );
-
-
-        await playMusic();
-
-
-        closeLanguageGate();
-
-      }
-    );
-
-  }
-);
-
-
-/* Music button */
-
-musicToggle?.addEventListener(
-  "click",
-  async () => {
-
-    if (!music) {
-      return;
-    }
-
-
-    if (music.paused) {
-
+entryButtons.forEach((button) => {
+  button.addEventListener("click", async () => {
+    if (button.dataset.entryMode === "music") {
       await playMusic();
-
+    } else {
+      music?.pause();
+      musicToggle?.classList.add("is-paused");
     }
+    closeLanguageGate();
+  });
+});
 
-    else {
+musicToggle?.addEventListener("click", async () => {
+  if (!music) return;
 
-      music.pause();
-
-
-      musicToggle
-        .classList
-        .add(
-          "is-paused"
-        );
-
-
-      musicToggle
-        .setAttribute(
-          "aria-label",
-          "Play music"
-        );
-
-    }
-
+  if (music.paused) {
+    if (!music.src) setMusicTrack(selectedLanguage);
+    await playMusic();
+  } else {
+    music.pause();
+    musicToggle.classList.add("is-paused");
+    musicToggle.setAttribute("aria-label", "Play music");
   }
-);
+});
 
-
-/* Remember previous language */
-
-const savedLanguage =
-  localStorage.getItem(
-    "engagement-language"
-  );
-
-
-if (
-  savedLanguage &&
-  translations[
-    savedLanguage
-  ]
-) {
-
-  applyLanguage(
-    savedLanguage
-  );
-
+const savedLanguage = localStorage.getItem("engagement-language");
+if (savedLanguage && translations[savedLanguage]) {
+  selectedLanguage = savedLanguage;
+  applyLanguage(savedLanguage);
 }
+
+
+/* =========================================================
+   SHARE INVITATION
+   ========================================================= */
+
+const shareInvitation = document.getElementById("shareInvitation");
+const shareStatus = document.getElementById("shareStatus");
+
+shareInvitation?.addEventListener("click", async () => {
+  const shareData = {
+    title: "Harshil & Pranali | Engagement",
+    text: "Join us for Harshil & Pranali's engagement celebration on 27 December 2026.",
+    url: window.location.href,
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      if (shareStatus) shareStatus.textContent = "Invitation link copied.";
+    }
+  } catch (error) {
+    if (error?.name !== "AbortError" && shareStatus) {
+      shareStatus.textContent = "Please copy the invitation link from your browser.";
+    }
+  }
+});
 
 
 /* =========================================================
