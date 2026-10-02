@@ -3607,3 +3607,94 @@ and
   }
 
 }
+
+/* =========================================================
+   INVITATION REFINEMENTS — OCT 2026
+   ========================================================= */
+
+.entry-options {
+  margin-top: 1.1rem;
+}
+
+.entry-options__title {
+  margin: 0 0 0.85rem;
+  color: var(--wine-ink);
+  font-family: var(--display);
+  font-size: 1.35rem;
+}
+
+.entry-options__buttons {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.entry-choice {
+  width: 100%;
+  min-height: 4.25rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(197, 160, 89, 0.34);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--wine-ink);
+  cursor: pointer;
+}
+
+.entry-choice strong,
+.entry-choice span {
+  display: block;
+}
+
+.entry-choice strong {
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.entry-choice span {
+  margin-top: 0.2rem;
+  font-family: var(--serif);
+  font-size: 0.94rem;
+}
+
+.invitation-tools {
+  text-align: center;
+}
+
+.invitation-tools .button {
+  width: min(100%, 20rem);
+  margin-top: 1.35rem;
+}
+
+.share-status {
+  min-height: 1.3rem;
+  margin-top: 0.65rem;
+  color: var(--gold-soft);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 17px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .topbar a {
+    font-size: 0.57rem;
+    letter-spacing: 0.055em;
+  }
+
+  .time,
+  .tradition,
+  .detail-row span,
+  .dress-details b {
+    font-size: 0.7rem;
+  }
+
+  .stats span {
+    font-size: 0.72rem;
+  }
+}
+
