@@ -29,7 +29,8 @@
   />
 
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/social-preview.jpg" />
+  <meta property="og:url" content="https://harshil-pranali-engagement.harshilgoradia123.workers.dev/" />
+  <meta property="og:image" content="https://harshil-pranali-engagement.harshilgoradia123.workers.dev/social-preview.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -109,7 +110,7 @@
       </div>
 
       <div class="entry-options" id="entryOptions" hidden>
-        <p class="entry-options__title">How would you like to enter?</p>
+        <button type="button" class="change-language" id="changeLanguage">Change language</button>
         <div class="entry-options__buttons">
           <button type="button" class="entry-choice" data-entry-mode="music">
             <strong>♫ Enter with music</strong>
@@ -137,7 +138,7 @@
 
   <audio
     id="engagementMusic"
-    preload="auto"
+    preload="none"
     loop
   >
     <source
@@ -152,6 +153,7 @@
     id="musicToggle"
     type="button"
     aria-label="Play music"
+    aria-pressed="false"
   >
     <span class="music-toggle__icon">♫</span>
     <span class="music-toggle__label">Music</span>
@@ -215,7 +217,7 @@
             With full hearts, a new chapter begins
           </p>
 
-          <h1>
+          <h1 id="invitationTitle" tabindex="-1">
             Harshil
             <span>&amp;</span>
             Pranali
@@ -264,7 +266,7 @@
             class="character-fallback"
             src="/assets/v6/hero.png"
             alt="Harshil and Pranali engagement illustration"
-          />
+           width="1354" height="1162" decoding="async" loading="eager" fetchpriority="high" />
 
         </div>
 
@@ -363,7 +365,7 @@
               <img
                 src="/assets/v6/story.png"
                 alt="Harshil and Pranali story illustration"
-              />
+               width="1224" height="1285" decoding="async" loading="lazy" />
 
               <figcaption>
                 From neighbours to forever ♥
@@ -559,7 +561,7 @@
             <img
               src="/assets/v6/sakharpuda.png"
               alt="Sakharpuda ceremony illustration"
-            />
+             width="1536" height="1024" decoding="async" loading="lazy" />
 
           </div>
 
@@ -624,7 +626,7 @@
             <img
               src="/assets/v6/goddhana.png"
               alt="Gol Dhana and Chunari ceremony illustration"
-            />
+             width="1230" height="1278" decoding="async" loading="lazy" />
 
           </div>
 
@@ -687,7 +689,7 @@
             <img
               src="/assets/v6/sangeet.png"
               alt="Ring Ceremony and Sangeet illustration"
-            />
+             width="1312" height="1199" decoding="async" loading="lazy" />
 
           </div>
 
@@ -946,7 +948,7 @@
             <img
               src="/assets/v6/venue.png"
               alt="Sai Palace engagement venue illustration"
-            />
+             width="1151" height="1367" decoding="async" loading="lazy" />
 
           </div>
 
