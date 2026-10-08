@@ -124,8 +124,8 @@ function createParticle(
     ),
 
     opacity: petal
-      ? random(0.22, 0.48)
-      : random(0.22, 0.52),
+      ? random(0.14, 0.3)
+      : random(0.16, 0.36),
 
     color: petal
 
@@ -171,14 +171,14 @@ function resetParticles() {
 
   const petalCount =
     Math.round(
-      (mobile ? 18 : 30) *
+      (mobile ? 12 : 22) *
       multiplier
     );
 
 
   const goldCount =
     Math.round(
-      (mobile ? 22 : 38) *
+      (mobile ? 16 : 28) *
       multiplier
     );
 
@@ -271,7 +271,8 @@ function resizeCanvas() {
   );
 
 
-  resetParticles();
+  if (!particles.length) resetParticles();
+  else particles.forEach(p => { p.x = Math.min(p.x, width); p.y = Math.min(p.y, height); });
 
 }
 
@@ -450,7 +451,7 @@ function animate(time) {
 
   if (
     !ctx ||
-    reducedMotion.matches
+    reducedMotion.matches || document.hidden
   ) {
     return;
   }
@@ -628,7 +629,7 @@ function startCanvas() {
   if (
     !canvas ||
     !ctx ||
-    reducedMotion.matches
+    reducedMotion.matches || document.hidden
   ) {
     return;
   }
@@ -854,6 +855,10 @@ document.addEventListener(
    LANGUAGE SYSTEM
    ========================================================= */
 
+function readSavedLanguage() {
+  try { return localStorage.getItem("engagement-language"); } catch { return null; }
+}
+
 const languageGate =
   document.getElementById(
     "languageGate"
@@ -868,6 +873,7 @@ const languageButtons =
 
 const pageTranslations = {
   hi: {
+    "Change language": "भाषा बदलें",
     "Two hearts, a beautiful journey": "दो दिल, एक खूबसूरत सफ़र",
     "Choose your language": "अपनी भाषा चुनें",
     "Let’s begin our story together.": "आइए, हमारी कहानी साथ शुरू करें।",
@@ -958,6 +964,7 @@ const pageTranslations = {
     "✦ Make memories with us": "✦ हमारे साथ यादें बनाएँ"
   },
   gu: {
+    "Change language": "ભાષા બદલો",
     "Two hearts, a beautiful journey": "બે દિલ, એક સુંદર સફર",
     "Choose your language": "તમારી ભાષા પસંદ કરો",
     "Let’s begin our story together.": "ચાલો, અમારી કહાની સાથે શરૂ કરીએ.",
@@ -1018,6 +1025,7 @@ const pageTranslations = {
     "♡ Share your favourite moments": "♡ તમારી મનપસંદ પળો શેર કરો", "♬ Dance like nobody is watching": "♬ મન મૂકીને નાચો", "✦ Make memories with us": "✦ અમારી સાથે યાદો બનાવો"
   },
   mr: {
+    "Change language": "भाषा बदला",
     "Two hearts, a beautiful journey": "दोन मने, एक सुंदर प्रवास",
     "Choose your language": "तुमची भाषा निवडा",
     "Let’s begin our story together.": "चला, आमची गोष्ट एकत्र सुरू करूया.",
@@ -1097,7 +1105,7 @@ function applyLanguage(language) {
   });
 
   document.documentElement.lang = language;
-  localStorage.setItem("engagement-language", language);
+  try { localStorage.setItem("engagement-language", language); } catch { /* Storage may be unavailable in private browsing. */ }
 }
 
 /* =========================================================
@@ -1110,7 +1118,7 @@ const entryOptions = document.getElementById("entryOptions");
 const entryButtons = document.querySelectorAll("[data-entry-mode]");
 
 let selectedLanguage =
-  localStorage.getItem("engagement-language") || "en";
+  readSavedLanguage() || "en";
 
 /* One soundtrack for every language for now. */
 const soundtrack = "/music/engagement.mp3";
@@ -1131,9 +1139,11 @@ async function playMusic() {
     await music.play();
     musicToggle?.classList.remove("is-paused");
     musicToggle?.setAttribute("aria-label", "Pause music");
+    musicToggle?.setAttribute("aria-pressed", "true");
   } catch {
 musicToggle?.classList.add("is-paused");
     musicToggle?.setAttribute("aria-label", "Play music");
+    musicToggle?.setAttribute("aria-pressed", "false");
   }
 }
 
@@ -1142,6 +1152,10 @@ function closeLanguageGate() {
   languageGate.classList.add("is-closing");
   window.setTimeout(() => {
     languageGate.hidden = true;
+    document.querySelector(".site-shell")?.removeAttribute("inert");
+    musicToggle?.removeAttribute("inert");
+    document.body.classList.remove("entry-open");
+    document.getElementById("invitationTitle")?.focus({ preventScroll: true });
   }, 430);
 }
 
@@ -1149,7 +1163,6 @@ languageButtons.forEach((button) => {
   button.addEventListener("click", () => {
     selectedLanguage = button.dataset.language || "en";
     applyLanguage(selectedLanguage);
-    setMusicTrack();
 
     document.querySelector(".language-options")?.setAttribute("hidden", "");
     document.querySelector(".language-gate__lead")?.setAttribute("hidden", "");
@@ -1160,13 +1173,14 @@ languageButtons.forEach((button) => {
       "How would you like to enter?";
 
     if (entryOptions) entryOptions.hidden = false;
+    entryButtons[0]?.focus();
   });
 });
 
 entryButtons.forEach((button) => {
   button.addEventListener("click", async () => {
     if (button.dataset.entryMode === "music") {
-      await playMusic();
+      void playMusic();
     } else {
       music?.pause();
       musicToggle?.classList.add("is-paused");
@@ -1185,11 +1199,43 @@ musicToggle?.addEventListener("click", async () => {
     music.pause();
     musicToggle.classList.add("is-paused");
     musicToggle.setAttribute("aria-label", "Play music");
+    musicToggle.setAttribute("aria-pressed", "false");
   }
 });
 
-const savedLanguage = localStorage.getItem("engagement-language");
-if (savedLanguage && translations[savedLanguage]) {
+
+// Keep background controls out of the dialog's keyboard and accessibility flow.
+if (languageGate && !languageGate.hidden) {
+  document.querySelector(".site-shell")?.setAttribute("inert", "");
+  musicToggle?.setAttribute("inert", "");
+  document.body.classList.add("entry-open");
+  languageButtons[0]?.focus();
+}
+
+languageGate?.addEventListener("keydown", (event) => {
+  if (event.key !== "Tab") return;
+  const controls = [...languageGate.querySelectorAll("button")]
+    .filter(button => !button.disabled && button.getClientRects().length);
+  const first = controls[0];
+  const last = controls.at(-1);
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault(); last?.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault(); first?.focus();
+  }
+});
+
+document.getElementById("changeLanguage")?.addEventListener("click", () => {
+  if (entryOptions) entryOptions.hidden = true;
+  document.querySelector(".language-options")?.removeAttribute("hidden");
+  document.querySelector(".language-gate__lead")?.removeAttribute("hidden");
+  document.getElementById("languageTitle").textContent =
+    pageTranslations[selectedLanguage]?.["Choose your language"] || "Choose your language";
+  languageButtons[0]?.focus();
+});
+
+const savedLanguage = readSavedLanguage();
+if (savedLanguage && (savedLanguage === "en" || pageTranslations[savedLanguage])) {
   selectedLanguage = savedLanguage;
   applyLanguage(savedLanguage);
 }
@@ -1213,14 +1259,14 @@ shareInvitation?.addEventListener("click", async () => {
   const shareData = {
     title: "Harshil & Pranali | Engagement",
     text: shareMessages[selectedLanguage] || shareMessages.en,
-    url: window.location.href,
+    url: new URL("/", window.location.href).href,
   };
 
   try {
     if (navigator.share) {
       await navigator.share(shareData);
     } else {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(shareData.url);
       if (shareStatus) shareStatus.textContent =
         selectedLanguage === "hi" ? "निमंत्रण लिंक कॉपी हो गई।" :
         selectedLanguage === "gu" ? "આમંત્રણની લિંક કૉપી થઈ ગઈ." :

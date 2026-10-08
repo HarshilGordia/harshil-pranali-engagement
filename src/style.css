@@ -261,7 +261,7 @@ h3 {
     100%;
 
   z-index:
-    20;
+    1;
 
   opacity:
     0.9;
@@ -290,25 +290,7 @@ h3 {
   overflow:
     clip;
 
-  background:
-
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(
-        197,
-        160,
-        89,
-        0.08
-      ),
-      transparent 30rem
-    ),
-
-    linear-gradient(
-      180deg,
-      var(--bg) 0%,
-      var(--bg-deep) 100%
-    );
-
+  background: transparent;
 }
 
 
@@ -2702,38 +2684,9 @@ h2 em {
    ========================================================= */
 
 .reveal {
-
-  opacity:
-    0;
-
-  transform:
-    translate3d(
-      0,
-      1.4rem,
-      0
-    );
-
-  filter:
-    blur(3px);
-
-  transition:
-
-    opacity
-    0.85s
-    var(--ease),
-
-    transform
-    0.9s
-    var(--ease),
-
-    filter
-    0.75s
-    ease;
-
-  will-change:
-    opacity,
-    transform;
-
+  opacity: 0;
+  transform: translate3d(0, 1rem, 0);
+  transition: opacity .6s var(--ease), transform .65s var(--ease);
 }
 
 
@@ -3698,3 +3651,100 @@ and
   }
 }
 
+
+/* Continuous backdrop below the canvas and invitation content. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(
+        197,
+        160,
+        89,
+        0.08
+      ),
+      transparent 30rem
+    ),
+
+    linear-gradient(
+      180deg,
+      var(--bg) 0%,
+      var(--bg-deep) 100%
+    );
+}
+
+/* Accessible entry flow and fluid spacing refinements. */
+[hidden] { display: none !important; }
+body.entry-open { overflow: hidden; }
+:where(a, button):focus-visible {
+  outline: 3px solid var(--gold-soft);
+  outline-offset: 4px;
+}
+.language-gate :where(button):focus-visible {
+  outline-color: var(--wine-ink);
+}
+.change-language {
+  display: block;
+  min-height: 48px;
+  margin: 0 auto .5rem;
+  padding: .5rem 1rem;
+  border: 0;
+  border-radius: .5rem;
+  background: transparent;
+  color: var(--wine-ink);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+  cursor: pointer;
+}
+.container {
+  width: min(calc(100% - max(var(--gutter), env(safe-area-inset-left)) - max(var(--gutter), env(safe-area-inset-right))), var(--max));
+}
+.section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.section + .section, .footer { border-top: 0; }
+.hero { padding-bottom: clamp(1.5rem, 4vw, 3rem); }
+.family, .request, .invitation-tools { padding-block: clamp(2rem, 5vw, 3.5rem); }
+.ceremony { padding-block: clamp(2rem, 5vw, 3.75rem); }
+.topbar {
+  flex-wrap: wrap;
+  gap: .25rem clamp(.25rem, 2vw, 1rem);
+  padding-block: .25rem;
+}
+.topbar a {
+  min-width: 48px;
+  min-height: 48px;
+  justify-content: center;
+  padding-inline: .35rem;
+  font-size: clamp(.75rem, 2.7vw, .85rem);
+  letter-spacing: .04em;
+}
+.event-meta p, .hero-subtitle, .eyebrow,
+.time, .tradition, .detail-row span, .dress-details b,
+.button, .event-card a, .scroll-cue {
+  font-size: clamp(.75rem, 2.7vw, .875rem);
+  line-height: 1.5;
+}
+.button, .event-card a, .scroll-cue { min-height: 48px; }
+.button { white-space: normal; text-align: center; }
+.event-card a, .info-card .time, .event-card .time,
+.event-card .tradition, .dress-details b { color: var(--wine-ink); }
+.section-heading h2 { font-size: clamp(2.1rem, 6vw, 3.65rem); }
+.venue h2 { font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.08; }
+.footer .container { width: min(100%, var(--max)); }
+.footer { padding-bottom: max(5rem, calc(env(safe-area-inset-bottom) + 4rem)); }
+@media (max-width: 480px) {
+  .topbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero .character-stage { min-height: 0; }
+  .hero-art .character-fallback { height: auto; max-height: 24rem; }
+  .detail-row { flex-wrap: wrap; }
+  .stats { grid-template-columns: 1fr; gap: .5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; }
+}
