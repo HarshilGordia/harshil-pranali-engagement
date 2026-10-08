@@ -87,6 +87,10 @@ const languageButtons =
 
 const pageTranslations = {
   hi: {
+    "Parents": "माता-पिता",
+    "Grandparents": "दादा-दादी",
+    "With the love and blessings of our family.": "हमारे परिवार के प्रेम और आशीर्वाद के साथ।",
+
     "Change language": "भाषा बदलें",
     "Two hearts, a beautiful journey": "दो दिल, एक खूबसूरत सफ़र",
     "Choose your language": "अपनी भाषा चुनें",
@@ -174,6 +178,10 @@ const pageTranslations = {
     "✦ Make memories with us": "✦ हमारे साथ यादें बनाएँ"
   },
   gu: {
+    "Parents": "માતા-પિતા",
+    "Grandparents": "દાદા-દાદી",
+    "With the love and blessings of our family.": "અમારા પરિવારના પ્રેમ અને આશીર્વાદ સાથે.",
+
     "Change language": "ભાષા બદલો",
     "Two hearts, a beautiful journey": "બે દિલ, એક સુંદર સફર",
     "Choose your language": "તમારી ભાષા પસંદ કરો",
@@ -234,6 +242,10 @@ const pageTranslations = {
     "♡ Share your favourite moments": "♡ તમારી મનપસંદ પળો શેર કરો", "♬ Dance like nobody is watching": "♬ મન મૂકીને નાચો", "✦ Make memories with us": "✦ અમારી સાથે યાદો બનાવો"
   },
   mr: {
+    "Parents": "आई-वडील",
+    "Grandparents": "आजी-आजोबा",
+    "With the love and blessings of our family.": "आमच्या कुटुंबाच्या प्रेम आणि आशीर्वादासह.",
+
     "Change language": "भाषा बदला",
     "Two hearts, a beautiful journey": "दोन मने, एक सुंदर प्रवास",
     "Choose your language": "तुमची भाषा निवडा",
@@ -294,7 +306,7 @@ const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 let node;
 while ((node = walker.nextNode())) {
   const original = node.nodeValue.replace(/\s+/g, " ").trim();
-  if (original) textNodes.push({ node, original });
+  if (original && !node.parentElement?.closest('[translate="no"]')) textNodes.push({ node, original });
 }
 
 function applyLanguage(language) {
