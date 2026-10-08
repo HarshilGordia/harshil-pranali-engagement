@@ -1,792 +1,6 @@
 import "./style.css";
 
-
-/* =========================================================
-   HARSHIL & PRANALI
-   Canvas + Language + Music + Scroll Animation
-   ========================================================= */
-
-
-/* =========================================================
-   CANVAS SETUP
-   ========================================================= */
-
-const reducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-);
-
-const canvas = document.getElementById("ambientCanvas");
-
-const ctx = canvas?.getContext("2d", {
-  alpha: true,
-  desynchronized: true,
-});
-
-let width = 0;
-let height = 0;
-let dpr = 1;
-
-let particles = [];
-
-let animationFrame = 0;
-let resizeFrame = 0;
-
-let previousTime = performance.now();
-
-
-const COLORS = {
-
-  petals: [
-    "#D98991",
-    "#C86D7B",
-    "#E6A0A6",
-    "#B95769",
-  ],
-
-  gold: [
-    "#C5A059",
-    "#E5C989",
-    "#F0DDAF",
-  ],
-
-};
-
-
-function random(min, max) {
-
-  return min +
-    Math.random() *
-    (max - min);
-
-}
-
-
-/* =========================================================
-   PARTICLE CREATION
-   ========================================================= */
-
-function createParticle(
-  type,
-  anywhere = true
-) {
-
-  const petal =
-    type === "petal";
-
-
-  return {
-
-    type,
-
-    x: random(
-      0,
-      width
-    ),
-
-    y: anywhere
-      ? random(0, height)
-      : petal
-        ? random(-100, -20)
-        : random(
-            height + 10,
-            height + 80
-          ),
-
-    size: petal
-      ? random(5, 11)
-      : random(0.8, 2),
-
-    speed: petal
-      ? random(12, 24)
-      : random(5, 11),
-
-    drift: petal
-      ? random(-10, 10)
-      : random(-4, 4),
-
-    phase: random(
-      0,
-      Math.PI * 2
-    ),
-
-    rotation: random(
-      0,
-      Math.PI * 2
-    ),
-
-    rotationSpeed: petal
-      ? random(-0.8, 0.8)
-      : 0,
-
-    tilt: random(
-      0.45,
-      1
-    ),
-
-    opacity: petal
-      ? random(0.14, 0.3)
-      : random(0.16, 0.36),
-
-    color: petal
-
-      ? COLORS.petals[
-          Math.floor(
-            Math.random() *
-            COLORS.petals.length
-          )
-        ]
-
-      : COLORS.gold[
-          Math.floor(
-            Math.random() *
-            COLORS.gold.length
-          )
-        ],
-
-  };
-
-}
-
-
-/* =========================================================
-   CREATE PARTICLES
-   ========================================================= */
-
-function resetParticles() {
-
-  const mobile =
-    width < 769;
-
-
-  const lowPower =
-    navigator.hardwareConcurrency &&
-    navigator.hardwareConcurrency <= 4;
-
-
-  const multiplier =
-    lowPower
-      ? 0.7
-      : 1;
-
-
-  const petalCount =
-    Math.round(
-      (mobile ? 12 : 22) *
-      multiplier
-    );
-
-
-  const goldCount =
-    Math.round(
-      (mobile ? 16 : 28) *
-      multiplier
-    );
-
-
-  particles = [
-
-    ...Array.from(
-      { length: petalCount },
-      () =>
-        createParticle(
-          "petal"
-        )
-    ),
-
-    ...Array.from(
-      { length: goldCount },
-      () =>
-        createParticle(
-          "gold"
-        )
-    ),
-
-  ];
-
-}
-
-
-/* =========================================================
-   CANVAS RESIZE
-   ========================================================= */
-
-function resizeCanvas() {
-
-  if (
-    !canvas ||
-    !ctx
-  ) {
-    return;
-  }
-
-
-  width =
-    Math.max(
-      1,
-      window.innerWidth
-    );
-
-
-  height =
-    Math.max(
-      1,
-      window.innerHeight
-    );
-
-
-  dpr =
-    Math.min(
-      window.devicePixelRatio || 1,
-      1.5
-    );
-
-
-  canvas.width =
-    Math.round(
-      width * dpr
-    );
-
-
-  canvas.height =
-    Math.round(
-      height * dpr
-    );
-
-
-  canvas.style.width =
-    `${width}px`;
-
-
-  canvas.style.height =
-    `${height}px`;
-
-
-  ctx.setTransform(
-    dpr,
-    0,
-    0,
-    dpr,
-    0,
-    0
-  );
-
-
-  if (!particles.length) resetParticles();
-  else particles.forEach(p => { p.x = Math.min(p.x, width); p.y = Math.min(p.y, height); });
-
-}
-
-
-function scheduleResize() {
-
-  cancelAnimationFrame(
-    resizeFrame
-  );
-
-
-  resizeFrame =
-    requestAnimationFrame(
-      resizeCanvas
-    );
-
-}
-
-
-/* =========================================================
-   DRAW PETAL
-   ========================================================= */
-
-function drawPetal(
-  particle,
-  time
-) {
-
-  const flip =
-    0.55 +
-    Math.abs(
-      Math.sin(
-        time * 0.001 +
-        particle.phase
-      )
-    ) *
-    0.45;
-
-
-  ctx.save();
-
-
-  ctx.translate(
-    particle.x,
-    particle.y
-  );
-
-
-  ctx.rotate(
-    particle.rotation
-  );
-
-
-  ctx.scale(
-    particle.tilt,
-    flip
-  );
-
-
-  ctx.globalAlpha =
-    particle.opacity;
-
-
-  ctx.fillStyle =
-    particle.color;
-
-
-  ctx.beginPath();
-
-
-  ctx.moveTo(
-    0,
-    -particle.size
-  );
-
-
-  ctx.bezierCurveTo(
-
-    particle.size * 0.95,
-    -particle.size * 0.55,
-
-    particle.size * 0.72,
-    particle.size * 0.65,
-
-    0,
-    particle.size
-
-  );
-
-
-  ctx.bezierCurveTo(
-
-    -particle.size * 0.72,
-    particle.size * 0.65,
-
-    -particle.size * 0.95,
-    -particle.size * 0.55,
-
-    0,
-    -particle.size
-
-  );
-
-
-  ctx.fill();
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   DRAW GOLD DUST
-   ========================================================= */
-
-function drawGold(
-  particle,
-  time
-) {
-
-  const pulse =
-    0.55 +
-    Math.sin(
-      time * 0.0015 +
-      particle.phase
-    ) *
-    0.3;
-
-
-  ctx.save();
-
-
-  ctx.globalAlpha =
-    Math.max(
-      0.06,
-      particle.opacity *
-      pulse
-    );
-
-
-  ctx.fillStyle =
-    particle.color;
-
-
-  ctx.shadowColor =
-    particle.color;
-
-
-  ctx.shadowBlur = 6;
-
-
-  ctx.beginPath();
-
-
-  ctx.arc(
-    particle.x,
-    particle.y,
-    particle.size,
-    0,
-    Math.PI * 2
-  );
-
-
-  ctx.fill();
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   ANIMATION LOOP
-   ========================================================= */
-
-function animate(time) {
-
-  if (
-    !ctx ||
-    reducedMotion.matches || document.hidden
-  ) {
-    return;
-  }
-
-
-  const delta =
-    Math.min(
-      (time - previousTime) /
-      1000,
-      0.034
-    );
-
-
-  previousTime = time;
-
-
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-
-  for (
-    const particle
-    of particles
-  ) {
-
-
-    /* PETAL */
-
-    if (
-      particle.type ===
-      "petal"
-    ) {
-
-      const sway =
-        Math.sin(
-          time * 0.0008 +
-          particle.phase
-        );
-
-
-      particle.y +=
-        particle.speed *
-        delta;
-
-
-      particle.x +=
-        (
-          particle.drift +
-          sway * 7
-        ) *
-        delta;
-
-
-      particle.rotation +=
-        particle.rotationSpeed *
-        delta;
-
-
-      drawPetal(
-        particle,
-        time
-      );
-
-
-      if (
-
-        particle.y >
-        height + 30 ||
-
-        particle.x <
-        -40 ||
-
-        particle.x >
-        width + 40
-
-      ) {
-
-        Object.assign(
-
-          particle,
-
-          createParticle(
-            "petal",
-            false
-          )
-
-        );
-
-      }
-
-    }
-
-
-    /* GOLD */
-
-    else {
-
-      particle.y -=
-        particle.speed *
-        delta;
-
-
-      particle.x +=
-
-        (
-          particle.drift +
-
-          Math.sin(
-            time * 0.0006 +
-            particle.phase
-          ) *
-
-          2.5
-
-        ) *
-
-        delta;
-
-
-      drawGold(
-        particle,
-        time
-      );
-
-
-      if (
-
-        particle.y <
-        -20 ||
-
-        particle.x <
-        -30 ||
-
-        particle.x >
-        width + 30
-
-      ) {
-
-        Object.assign(
-
-          particle,
-
-          createParticle(
-            "gold",
-            false
-          )
-
-        );
-
-      }
-
-    }
-
-  }
-
-
-  animationFrame =
-    requestAnimationFrame(
-      animate
-    );
-
-}
-
-
-/* =========================================================
-   START / STOP CANVAS
-   ========================================================= */
-
-function startCanvas() {
-
-  if (
-    !canvas ||
-    !ctx ||
-    reducedMotion.matches || document.hidden
-  ) {
-    return;
-  }
-
-
-  resizeCanvas();
-
-
-  cancelAnimationFrame(
-    animationFrame
-  );
-
-
-  previousTime =
-    performance.now();
-
-
-  animationFrame =
-    requestAnimationFrame(
-      animate
-    );
-
-}
-
-
-function stopCanvas() {
-
-  cancelAnimationFrame(
-    animationFrame
-  );
-
-
-  if (ctx) {
-
-    ctx.clearRect(
-      0,
-      0,
-      width,
-      height
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   SCROLL REVEALS
-   ========================================================= */
-
-const revealElements = [
-  ...document.querySelectorAll(
-    ".reveal"
-  ),
-];
-
-
-if (
-
-  "IntersectionObserver"
-  in window &&
-
-  !reducedMotion.matches
-
-) {
-
-  const observer =
-    new IntersectionObserver(
-
-      (
-        entries,
-        revealObserver
-      ) => {
-
-        entries.forEach(
-          (entry) => {
-
-            if (
-              !entry.isIntersecting
-            ) {
-              return;
-            }
-
-
-            entry.target
-              .classList
-              .add(
-                "is-visible"
-              );
-
-
-            revealObserver
-              .unobserve(
-                entry.target
-              );
-
-          }
-        );
-
-      },
-
-      {
-
-        threshold: 0.12,
-
-        rootMargin:
-          "0px 0px -8% 0px",
-
-      }
-
-    );
-
-
-  revealElements.forEach(
-    (element) =>
-      observer.observe(
-        element
-      )
-  );
-
-}
-
-else {
-
-  revealElements.forEach(
-    (element) =>
-      element
-        .classList
-        .add(
-          "is-visible"
-        )
-  );
-
-}
-
-
-/* Hero visible immediately */
-
-requestAnimationFrame(
-  () => {
-
-    document
-      .querySelectorAll(
-        ".hero .reveal"
-      )
-      .forEach(
-        (element) =>
-          element
-            .classList
-            .add(
-              "is-visible"
-            )
-      );
-
-  }
-);
-
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 /* =========================================================
    SMOOTH INTERNAL LINKS
@@ -949,11 +163,7 @@ const pageTranslations = {
     "Come ready for": "तैयार होकर आइए",
     "There is one song we would love everyone to share with us. Give it a listen before the evening and come ready to sing along.": "एक गीत है जिसे हम आप सभी के साथ साझा करना चाहते हैं। शाम से पहले इसे सुन लें और हमारे साथ गाने के लिए तैयार होकर आइए।",
     "Listen on YouTube →": "YouTube पर सुनें →",
-    "Latest Update": "नवीनतम जानकारी",
-    "Everything is set for our": "हमारी",
     "beautiful beginning.": "खूबसूरत शुरुआत के लिए सब तैयार है।",
-    "Our celebration remains on Sunday, 27 December 2026 at Sai Palace, Mira Road. Keep this invitation handy for timings, dress code and directions.": "हमारा उत्सव रविवार, 27 दिसंबर 2026 को साई पैलेस, मीरा रोड में ही होगा। समय, पोशाक और रास्ते की जानकारी के लिए इस निमंत्रण को संभालकर रखें।",
-    "Share this invitation": "यह निमंत्रण साझा करें",
     "The Venue": "समारोह स्थल",
     "A beautiful setting for a celebration we will remember forever.": "एक खूबसूरत जगह, जहाँ हम ऐसा उत्सव मनाएँगे जिसे हमेशा याद रखेंगे।",
     "Open in Google Maps": "Google Maps में खोलें",
@@ -1016,9 +226,8 @@ const pageTranslations = {
     "A special request from us": "અમારી તરફથી એક ખાસ વિનંતી", "Come ready for": "તૈયાર થઈને આવજો",
     "There is one song we would love everyone to share with us. Give it a listen before the evening and come ready to sing along.": "એક ગીત છે જે અમે આપ સૌ સાથે માણવા માંગીએ છીએ. સાંજ પહેલાં તેને સાંભળી લેજો અને અમારી સાથે ગાવા તૈયાર થઈને આવજો.",
     "Listen on YouTube →": "YouTube પર સાંભળો →",
-    "Latest Update": "નવીનતમ માહિતી", "Everything is set for our": "અમારી", "beautiful beginning.": "સુંદર શરૂઆત માટે બધું તૈયાર છે.",
-    "Our celebration remains on Sunday, 27 December 2026 at Sai Palace, Mira Road. Keep this invitation handy for timings, dress code and directions.": "અમારી ઉજવણી રવિવાર, 27 ડિસેમ્બર 2026ના રોજ સાઈ પેલેસ, મીરા રોડ ખાતે જ રહેશે. સમય, પોશાક અને દિશાઓ માટે આ આમંત્રણ સાચવી રાખજો.",
-    "Share this invitation": "આ આમંત્રણ શેર કરો", "The Venue": "સમારોહ સ્થળ",
+    "beautiful beginning.": "સુંદર શરૂઆત માટે બધું તૈયાર છે.",
+    "The Venue": "સમારોહ સ્થળ",
     "A beautiful setting for a celebration we will remember forever.": "એક સુંદર સ્થળ, જ્યાંની ઉજવણી અમે હંમેશા યાદ રાખીશું.",
     "Open in Google Maps": "Google Maps માં ખોલો", "Add to Calendar": "કૅલેન્ડરમાં ઉમેરો",
     "More than a decade of memories, now gathered into one unforgettable celebration.": "એક દાયકાથી વધુ યાદો, હવે એક અવિસ્મરણીય ઉજવણીમાં સાથે.",
@@ -1071,9 +280,8 @@ const pageTranslations = {
     "A special request from us": "आमच्याकडून एक खास विनंती", "Come ready for": "तयार होऊन या",
     "There is one song we would love everyone to share with us. Give it a listen before the evening and come ready to sing along.": "एक गाणे आहे जे आम्हाला तुम्हा सर्वांसोबत अनुभवायचे आहे. संध्याकाळपूर्वी ते ऐका आणि आमच्यासोबत गाण्यासाठी तयार होऊन या.",
     "Listen on YouTube →": "YouTube वर ऐका →",
-    "Latest Update": "नवीनतम माहिती", "Everything is set for our": "आमच्या", "beautiful beginning.": "सुंदर सुरुवातीसाठी सर्व काही तयार आहे.",
-    "Our celebration remains on Sunday, 27 December 2026 at Sai Palace, Mira Road. Keep this invitation handy for timings, dress code and directions.": "आमचा सोहळा रविवार, 27 डिसेंबर 2026 रोजी साई पॅलेस, मीरा रोड येथेच होईल. वेळा, पोशाख आणि दिशांसाठी हे निमंत्रण जवळ ठेवा.",
-    "Share this invitation": "हे निमंत्रण शेअर करा", "The Venue": "समारंभ स्थळ",
+    "beautiful beginning.": "सुंदर सुरुवातीसाठी सर्व काही तयार आहे.",
+    "The Venue": "समारंभ स्थळ",
     "A beautiful setting for a celebration we will remember forever.": "एक सुंदर ठिकाण, जिथला सोहळा आम्ही कायम लक्षात ठेवू.",
     "Open in Google Maps": "Google Maps मध्ये उघडा", "Add to Calendar": "कॅलेंडरमध्ये जोडा",
     "More than a decade of memories, now gathered into one unforgettable celebration.": "दशकाहून अधिक आठवणी, आता एका अविस्मरणीय सोहळ्यात एकत्र.",
@@ -1241,128 +449,193 @@ if (savedLanguage && (savedLanguage === "en" || pageTranslations[savedLanguage])
 }
 
 
-/* =========================================================
-   SHARE INVITATION
-   ========================================================= */
+/* Royal motion: independent reveal, scroll depth, tilt, and particle layers. */
+const canvas = document.getElementById('ambientCanvas');
+const ctx = canvas?.getContext('2d', { alpha: true, desynchronized: true });
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+const depthLayers = [...document.querySelectorAll('[data-depth]')];
+const surfaces = [...document.querySelectorAll('[data-tilt]')];
+const revealElements = [...document.querySelectorAll('.reveal')];
+const visibleDepth = new Set();
+let width = 1, height = 1, particles = [], animationFrame = 0, resizeFrame = 0;
+let previousTime = 0, depthDirty = true;
+let pointer = { x: .5, y: .5, active: false };
+let activeSurface = null;
+let tiltFrame = 0;
+const rand = (a, b) => a + Math.random() * (b - a);
 
-const shareInvitation = document.getElementById("shareInvitation");
-const shareStatus = document.getElementById("shareStatus");
-
-shareInvitation?.addEventListener("click", async () => {
-  const shareMessages = {
-    en: "Join us for Harshil & Pranali's engagement celebration on 27 December 2026.",
-    hi: "27 दिसंबर 2026 को हर्षिल और प्रणाली की सगाई के उत्सव में हमारे साथ शामिल हों।",
-    gu: "27 ડિસેમ્બર 2026ના રોજ હર્ષિલ અને પ્રણાલીની સગાઈની ઉજવણીમાં અમારી સાથે જોડાઓ.",
-    mr: "27 डिसेंबर 2026 रोजी हर्षिल आणि प्रणालीच्या साखरपुड्याच्या सोहळ्यात आमच्यासोबत सहभागी व्हा."
+function makeParticle(petal, initial = true) {
+  const depth = rand(.3, 1);
+  return {
+    petal, depth, x: rand(-20, width + 20),
+    y: initial ? rand(0, height) : petal ? -24 : height + 24,
+    size: petal ? rand(3, 7) * depth : rand(.7, 1.8) * depth,
+    speed: (petal ? rand(12, 27) : rand(5, 12)) * depth,
+    phase: rand(0, Math.PI * 2), rotation: rand(0, Math.PI * 2),
+    spin: rand(-.5, .5), opacity: rand(.16, .4) * depth,
+    color: petal ? ['#da8097', '#bd5979', '#f3b7b2'][Math.floor(rand(0, 3))] : '#f6dba4',
   };
-
-  const shareData = {
-    title: "Harshil & Pranali | Engagement",
-    text: shareMessages[selectedLanguage] || shareMessages.en,
-    url: new URL("/", window.location.href).href,
-  };
-
-  try {
-    if (navigator.share) {
-      await navigator.share(shareData);
+}
+function resizeCanvas() {
+  width = Math.max(1, document.documentElement.clientWidth || window.innerWidth);
+  height = Math.max(1, window.innerHeight);
+  if (canvas && ctx) {
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const lowPower = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    const count = Math.round((width < 769 ? 32 : 58) * (lowPower ? .7 : 1));
+    if (!particles.length || Math.abs(particles.length - count) > 8) {
+      particles = Array.from({ length: count }, (_, i) => makeParticle(i % 3 === 0));
     } else {
-      await navigator.clipboard.writeText(shareData.url);
-      if (shareStatus) shareStatus.textContent =
-        selectedLanguage === "hi" ? "निमंत्रण लिंक कॉपी हो गई।" :
-        selectedLanguage === "gu" ? "આમંત્રણની લિંક કૉપી થઈ ગઈ." :
-        selectedLanguage === "mr" ? "निमंत्रणाची लिंक कॉपी झाली." :
-        "Invitation link copied.";
+      particles.forEach(p => { p.x = Math.min(p.x, width + 20); p.y = Math.min(p.y, height + 20); });
     }
-  } catch (error) {
-    if (error?.name !== "AbortError" && shareStatus) {
-      shareStatus.textContent =
-        selectedLanguage === "hi" ? "कृपया ब्राउज़र से निमंत्रण लिंक कॉपी करें।" :
-        selectedLanguage === "gu" ? "કૃપા કરીને બ્રાઉઝરમાંથી આમંત્રણની લિંક કૉપી કરો." :
-        selectedLanguage === "mr" ? "कृपया ब्राउझरमधून निमंत्रणाची लिंक कॉपी करा." :
-        "Please copy the invitation link from your browser.";
+  }
+  depthDirty = true;
+}
+function updateDepth() {
+  const viewHeight = window.innerHeight;
+  visibleDepth.forEach(layer => {
+    // Measure the stable wrapper, not the transformed child, to avoid feedback.
+    const rect = layer.parentElement.getBoundingClientRect();
+    const progress = Math.max(-1, Math.min(1, (viewHeight / 2 - rect.top - rect.height / 2) / viewHeight));
+    const amount = Number(layer.dataset.depth) * (finePointer.matches ? 1 : .55);
+    layer.style.setProperty('--parallax-y', `${(progress * amount).toFixed(2)}px`);
+  });
+  depthDirty = false;
+}
+function drawParticle(p, time, delta) {
+  const sway = Math.sin(time * .00065 + p.phase);
+  p.y += (p.petal ? 1 : -1) * p.speed * delta;
+  p.x += (sway * 10 + (pointer.active ? (pointer.x - .5) * 12 * p.depth : 0)) * delta;
+  p.rotation += p.spin * delta;
+  if (p.y > height + 30 || p.y < -30 || p.x < -40 || p.x > width + 40) {
+    Object.assign(p, makeParticle(p.petal, false));
+  }
+  ctx.save();
+  ctx.globalAlpha = p.opacity * (p.petal ? 1 : .65 + Math.sin(time * .001 + p.phase) * .25);
+  ctx.fillStyle = p.color;
+  ctx.translate(p.x, p.y);
+  if (p.petal) {
+    ctx.rotate(p.rotation);
+    ctx.scale(.65 + .35 * Math.abs(Math.sin(time * .0008 + p.phase)), 1);
+    ctx.beginPath();
+    ctx.moveTo(0, -p.size);
+    ctx.bezierCurveTo(p.size, -p.size * .6, p.size, p.size * .6, 0, p.size);
+    ctx.bezierCurveTo(-p.size * .7, p.size * .4, -p.size, -p.size * .5, 0, -p.size);
+    ctx.fill();
+  } else {
+    // A flat translucent halo avoids expensive per-particle shadow blur.
+    ctx.globalAlpha *= .25;
+    ctx.beginPath(); ctx.arc(0, 0, p.size * 3, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha *= 4;
+    ctx.beginPath(); ctx.arc(0, 0, p.size, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
+}
+function tick(time) {
+  animationFrame = 0;
+  if (document.hidden || reducedMotion.matches) return;
+  const delta = previousTime ? Math.min((time - previousTime) / 1000, .034) : 0;
+  previousTime = time;
+  if (depthDirty) updateDepth();
+  if (ctx) {
+    ctx.clearRect(0, 0, width, height);
+    particles.forEach(p => drawParticle(p, time, delta));
+  }
+  animationFrame = requestAnimationFrame(tick);
+}
+function stopMotion() {
+  cancelAnimationFrame(animationFrame); animationFrame = 0; previousTime = 0;
+  cancelAnimationFrame(tiltFrame); tiltFrame = 0;
+  surfaces.forEach(resetTilt);
+  pointer.active = false;
+  ctx?.clearRect(0, 0, width, height);
+}
+function startMotion() {
+  if (document.hidden || reducedMotion.matches || animationFrame) return;
+  resizeCanvas();
+  previousTime = 0;
+  animationFrame = requestAnimationFrame(tick);
+}
+function resetTilt(surface) {
+  surface.classList.remove('is-interacting');
+  surface.style.setProperty('--rx', '0deg');
+  surface.style.setProperty('--ry', '0deg');
+  surface.style.setProperty('--light-x', '50%');
+  surface.style.setProperty('--light-y', '35%');
+  if (activeSurface === surface) activeSurface = null;
+}
+surfaces.forEach(surface => {
+  let touchStart = null;
+  surface.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'touch') touchStart = { x: event.clientX, y: event.clientY };
+  }, { passive: true });
+  surface.addEventListener('pointermove', event => {
+    if (reducedMotion.matches || (!finePointer.matches && event.pointerType !== 'touch')) return;
+    if (event.pointerType === 'touch') {
+      if (!touchStart) return;
+      if (Math.abs(event.clientY - touchStart.y) > 14) { touchStart = null; resetTilt(surface); return; }
     }
+    const rect = surface.getBoundingClientRect();
+    const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+    const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+    const limit = event.pointerType === 'touch' ? 3 : surface.dataset.tilt === 'art' ? 5 : 3.5;
+    if (activeSurface && activeSurface !== surface) resetTilt(activeSurface);
+    activeSurface = surface;
+    cancelAnimationFrame(tiltFrame);
+    tiltFrame = requestAnimationFrame(() => {
+      tiltFrame = 0;
+      if (activeSurface !== surface || reducedMotion.matches || document.hidden) return;
+      surface.classList.add('is-interacting');
+      surface.style.setProperty('--rx', `${((.5 - y) * limit * 2).toFixed(2)}deg`);
+      surface.style.setProperty('--ry', `${((x - .5) * limit * 2).toFixed(2)}deg`);
+      surface.style.setProperty('--light-x', `${(x * 100).toFixed(1)}%`);
+      surface.style.setProperty('--light-y', `${(y * 100).toFixed(1)}%`);
+    });
+  }, { passive: true });
+  for (const name of ['pointerleave', 'pointerup', 'pointercancel']) {
+    surface.addEventListener(name, () => { touchStart = null; resetTilt(surface); }, { passive: true });
   }
 });
-
-
-/* =========================================================
-   PERFORMANCE EVENTS
-   ========================================================= */
-
-document.addEventListener(
-  "visibilitychange",
-  () => {
-
-    if (
-      document.hidden
-    ) {
-
-      stopCanvas();
-
-    }
-
-    else {
-
-      startCanvas();
-
-    }
-
+window.addEventListener('pointermove', event => {
+  if (!finePointer.matches || reducedMotion.matches) return;
+  pointer = { x: event.clientX / width, y: event.clientY / height, active: true };
+}, { passive: true });
+window.addEventListener('blur', () => { pointer.active = false; surfaces.forEach(resetTilt); });
+window.addEventListener('scroll', () => { depthDirty = true; }, { passive: true });
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(resizeFrame);
+  resizeFrame = requestAnimationFrame(resizeCanvas);
+}, { passive: true });
+if ('IntersectionObserver' in window) {
+  const depthObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => entry.isIntersecting ? visibleDepth.add(entry.target) : visibleDepth.delete(entry.target));
+    depthDirty = true;
+  }, { rootMargin: '100px' });
+  depthLayers.forEach(layer => depthObserver.observe(layer));
+  if (!reducedMotion.matches) {
+    document.documentElement.classList.add('motion-ready');
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: .05 });
+    revealElements.forEach(el => revealObserver.observe(el));
   }
-);
-
-
-window.addEventListener(
-  "resize",
-  scheduleResize,
-  {
-    passive: true,
-  }
-);
-
-
-window.addEventListener(
-  "orientationchange",
-  scheduleResize,
-  {
-    passive: true,
-  }
-);
-
-
-reducedMotion
-  .addEventListener?.(
-    "change",
-    (event) => {
-
-      if (
-        event.matches
-      ) {
-
-        stopCanvas();
-
-        revealElements.forEach(
-          (element) =>
-            element
-              .classList
-              .add(
-                "is-visible"
-              )
-        );
-
-      }
-
-      else {
-
-        startCanvas();
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   START CANVAS
-   ========================================================= */
-
-startCanvas();
+} else {
+  depthLayers.forEach(layer => visibleDepth.add(layer));
+}
+document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('is-visible'));
+document.addEventListener('visibilitychange', () => document.hidden ? stopMotion() : startMotion());
+reducedMotion.addEventListener('change', () => {
+  if (reducedMotion.matches) {
+    stopMotion();
+    depthLayers.forEach(layer => layer.style.removeProperty('--parallax-y'));
+    revealElements.forEach(el => el.classList.add('is-visible'));
+  } else startMotion();
+});
+window.addEventListener('pagehide', stopMotion);
+window.addEventListener('pageshow', startMotion);
+startMotion();
