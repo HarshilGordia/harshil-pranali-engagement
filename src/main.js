@@ -1,4 +1,5 @@
 import "./style.css";
+import { createSoundtrackPlayer } from "./soundtrack-player.js";
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -392,38 +393,38 @@ const entryButtons = document.querySelectorAll("[data-entry-mode]");
 let selectedLanguage =
   readSavedLanguage() || "en";
 
-/* Load only the selected soundtrack, following an explicit music action. */
+// English and Hindi share the requested song; other selections have their own loop.
 const soundtracks = {
-  en: "/music/english-hindi-v1.mp3",
-  hi: "/music/english-hindi-v1.mp3",
-  gu: "/music/gujarati.mp3",
-  mr: "/music/marathi.mp3",
+  en: "/music/english-hindi-loop-v2.mp3",
+  hi: "/music/english-hindi-loop-v2.mp3",
+  gu: "/music/gujarati-loop-v2.mp3",
+  mr: "/music/marathi-loop-v2.mp3",
 };
+const soundtrackPlayer = createSoundtrackPlayer(music);
+let musicAction = 0;
 
-function setMusicTrack() {
-  if (!music) return;
-  const soundtrack = soundtracks[selectedLanguage] || soundtracks.en;
-  if (music.getAttribute("src") !== soundtrack) {
-    music.src = soundtrack;
-    music.load();
-  }
+function updateMusicToggle(playing) {
+  const label = playing ? "Pause music" : "Play music";
+  musicToggle?.classList.toggle("is-paused", !playing);
+  musicToggle?.setAttribute("aria-label", pageTranslations[selectedLanguage]?.[label] || label);
+  musicToggle?.setAttribute("aria-pressed", String(playing));
 }
 
 async function playMusic() {
   if (!music) return;
-  setMusicTrack();
-  music.volume = 0.42;
+  const action = ++musicAction;
+  musicToggle?.setAttribute("aria-busy", "true");
+  const playing = await soundtrackPlayer.play(soundtracks[selectedLanguage] || soundtracks.en);
+  if (action !== musicAction) return;
+  musicToggle?.removeAttribute("aria-busy");
+  updateMusicToggle(playing);
+}
 
-  try {
-    await music.play();
-    musicToggle?.classList.remove("is-paused");
-    musicToggle?.setAttribute("aria-label", "Pause music");
-    musicToggle?.setAttribute("aria-pressed", "true");
-  } catch {
-musicToggle?.classList.add("is-paused");
-    musicToggle?.setAttribute("aria-label", "Play music");
-    musicToggle?.setAttribute("aria-pressed", "false");
-  }
+function pauseMusic() {
+  musicAction++;
+  soundtrackPlayer.pause();
+  musicToggle?.removeAttribute("aria-busy");
+  updateMusicToggle(false);
 }
 
 function closeLanguageGate() {
@@ -462,24 +463,16 @@ entryButtons.forEach((button) => {
     if (button.dataset.entryMode === "music") {
       void playMusic();
     } else {
-      music?.pause();
-      musicToggle?.classList.add("is-paused");
+      pauseMusic();
     }
     closeLanguageGate();
   });
 });
 
-musicToggle?.addEventListener("click", async () => {
+musicToggle?.addEventListener("click", () => {
   if (!music) return;
-
-  if (music.paused) {
-    await playMusic();
-  } else {
-    music.pause();
-    musicToggle.classList.add("is-paused");
-    musicToggle.setAttribute("aria-label", "Play music");
-    musicToggle.setAttribute("aria-pressed", "false");
-  }
+  if (soundtrackPlayer.active) pauseMusic();
+  else void playMusic();
 });
 
 
