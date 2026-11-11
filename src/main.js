@@ -87,7 +87,6 @@ const languageButtons =
 
 const pageTranslations = {
   hi: {
-<<<<<<< HEAD
     "Scroll to discover our celebration": "हमारे उत्सव को देखने के लिए नीचे स्क्रॉल करें",
 
     "Play music": "संगीत चलाएँ",
@@ -109,12 +108,6 @@ const pageTranslations = {
     "Grandparents": "दादा-दादी",
     "With the love and blessings of our family.": "हमारे परिवार के प्रेम और आशीर्वाद के साथ।",
 
-=======
-    "Parents": "माता-पिता",
-    "Grandparents": "दादा-दादी",
-    "With the love and blessings of our family.": "हमारे परिवार के प्रेम और आशीर्वाद के साथ।",
-
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
     "Change language": "भाषा बदलें",
     "Two hearts, a beautiful journey": "दो दिल, एक खूबसूरत सफ़र",
     "Choose your language": "अपनी भाषा चुनें",
@@ -202,7 +195,6 @@ const pageTranslations = {
     "✦ Make memories with us": "✦ हमारे साथ यादें बनाएँ"
   },
   gu: {
-<<<<<<< HEAD
     "Scroll to discover our celebration": "અમારી ઉજવણી જોવા નીચે સ્ક્રોલ કરો",
 
     "Play music": "સંગીત વગાડો",
@@ -224,12 +216,6 @@ const pageTranslations = {
     "Grandparents": "દાદા-દાદી",
     "With the love and blessings of our family.": "અમારા પરિવારના પ્રેમ અને આશીર્વાદ સાથે.",
 
-=======
-    "Parents": "માતા-પિતા",
-    "Grandparents": "દાદા-દાદી",
-    "With the love and blessings of our family.": "અમારા પરિવારના પ્રેમ અને આશીર્વાદ સાથે.",
-
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
     "Change language": "ભાષા બદલો",
     "Two hearts, a beautiful journey": "બે દિલ, એક સુંદર સફર",
     "Choose your language": "તમારી ભાષા પસંદ કરો",
@@ -290,7 +276,6 @@ const pageTranslations = {
     "♡ Share your favourite moments": "♡ તમારી મનપસંદ પળો શેર કરો", "♬ Dance like nobody is watching": "♬ મન મૂકીને નાચો", "✦ Make memories with us": "✦ અમારી સાથે યાદો બનાવો"
   },
   mr: {
-<<<<<<< HEAD
     "Scroll to discover our celebration": "आमचा सोहळा पाहण्यासाठी खाली स्क्रोल करा",
 
     "Play music": "संगीत सुरू करा",
@@ -312,12 +297,6 @@ const pageTranslations = {
     "Grandparents": "आजी-आजोबा",
     "With the love and blessings of our family.": "आमच्या कुटुंबाच्या प्रेम आणि आशीर्वादासह.",
 
-=======
-    "Parents": "आई-वडील",
-    "Grandparents": "आजी-आजोबा",
-    "With the love and blessings of our family.": "आमच्या कुटुंबाच्या प्रेम आणि आशीर्वादासह.",
-
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
     "Change language": "भाषा बदला",
     "Two hearts, a beautiful journey": "दोन मने, एक सुंदर प्रवास",
     "Choose your language": "तुमची भाषा निवडा",
@@ -378,11 +357,7 @@ const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 let node;
 while ((node = walker.nextNode())) {
   const original = node.nodeValue.replace(/\s+/g, " ").trim();
-<<<<<<< HEAD
   if (original && !node.parentElement?.closest('[translate="no"], [data-dynamic]')) textNodes.push({ node, original });
-=======
-  if (original && !node.parentElement?.closest('[translate="no"]')) textNodes.push({ node, original });
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
 }
 
 function applyLanguage(language) {
@@ -401,10 +376,7 @@ function applyLanguage(language) {
   });
 
   document.documentElement.lang = language;
-<<<<<<< HEAD
   document.dispatchEvent(new Event("invitation:language"));
-=======
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
   try { localStorage.setItem("engagement-language", language); } catch { /* Storage may be unavailable in private browsing. */ }
 }
 
@@ -420,7 +392,6 @@ const entryButtons = document.querySelectorAll("[data-entry-mode]");
 let selectedLanguage =
   readSavedLanguage() || "en";
 
-<<<<<<< HEAD
 /* Load only the selected soundtrack, following an explicit music action. */
 const soundtracks = {
   en: "/music/english.mp3",
@@ -433,14 +404,6 @@ function setMusicTrack() {
   if (!music) return;
   const soundtrack = soundtracks[selectedLanguage] || soundtracks.en;
   if (music.getAttribute("src") !== soundtrack) {
-=======
-/* One soundtrack for every language for now. */
-const soundtrack = "/music/engagement.mp3";
-
-function setMusicTrack() {
-  if (!music) return;
-  if (!music.src.endsWith(soundtrack)) {
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
     music.src = soundtrack;
     music.load();
   }
@@ -448,10 +411,7 @@ function setMusicTrack() {
 
 async function playMusic() {
   if (!music) return;
-<<<<<<< HEAD
   setMusicTrack();
-=======
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
   music.volume = 0.42;
 
   try {
@@ -475,10 +435,7 @@ function closeLanguageGate() {
     musicToggle?.removeAttribute("inert");
     document.body.classList.remove("entry-open");
     document.getElementById("invitationTitle")?.focus({ preventScroll: true });
-<<<<<<< HEAD
     document.dispatchEvent(new Event("invitation:entered"));
-=======
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
   }, 430);
 }
 
@@ -516,10 +473,6 @@ musicToggle?.addEventListener("click", async () => {
   if (!music) return;
 
   if (music.paused) {
-<<<<<<< HEAD
-=======
-    setMusicTrack();
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
     await playMusic();
   } else {
     music.pause();
@@ -757,7 +710,6 @@ reducedMotion.addEventListener('change', () => {
 window.addEventListener('pagehide', stopMotion);
 window.addEventListener('pageshow', startMotion);
 startMotion();
-<<<<<<< HEAD
 
 
 /* Optional playful interactions for the scrolling invitation. */
@@ -807,5 +759,3 @@ startMotion();
   updateCountdown();
   setInterval(updateCountdown, 60000);
 })();
-=======
->>>>>>> 5d54e2ff5ebe3b8707a54e20e380c0d9dd280814
