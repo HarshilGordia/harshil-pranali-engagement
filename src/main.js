@@ -394,8 +394,8 @@ let selectedLanguage =
 
 /* Load only the selected soundtrack, following an explicit music action. */
 const soundtracks = {
-  en: "/music/english.mp3",
-  hi: "/music/engagement.mp3",
+  en: "/music/english-hindi-v1.mp3",
+  hi: "/music/english-hindi-v1.mp3",
   gu: "/music/gujarati.mp3",
   mr: "/music/marathi.mp3",
 };
