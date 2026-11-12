@@ -5,13 +5,15 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 UID:harshil-pranali-engagement-20261227@sonugotchillllled
-DTSTAMP:20260913T112300Z
+DTSTAMP:20261111T222100Z
+SEQUENCE:1
 DTSTART:20261227T103000Z
 DTEND:20261227T183000Z
 SUMMARY:Harshil & Pranali — Engagement Celebration
 LOCATION:Sai Palace\, Mira Road
-DESCRIPTION:Sakharpuda at 4:00 PM\nGol Dhana & Chunari at 6:00 PM\nRing Cer
- emony & Sangeet at 8:00 PM\nSai Palace\, Mira Road
+DESCRIPTION:Sakharpuda at 4:00 PM IST\nGol Dhana & Chunari at 6:00 PM IST\n
+ Ring Ceremony & Sangeet at 8:00 PM IST\nSai Palace\, Mira Road\nhttps://ma
+ ps.app.goo.gl/LYDEGDFgfHN9hb9C6
 URL:https://harshil-pranali-engagement.harshilgoradia123.workers.dev/
 STATUS:CONFIRMED
 END:VEVENT
