@@ -1,0 +1,86 @@
+@font-face{font-family:"Great Vibes";src:url("/fonts/great-vibes.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Cinzel";src:url("/fonts/cinzel.woff2") format("woff2");font-weight:500 700;font-style:normal;font-display:swap}
+/* Navy invitation cards: separate printed folios, one normal scroll. */
+:root{
+  color-scheme:dark;
+  --paper:#d3d4d4;--silk:#082735;--ink:#f1d49a;--muted:#e3d6bc;
+  --jade:#e6bb75;--jade-deep:#061e2a;--gold:#e6b975;--gold-light:#f5d399;
+  --line:#c195596b;--stone:#123846;
+  --display:"Cinzel","Noto Sans Devanagari","Noto Sans Gujarati",Georgia,serif;
+  --script:"Great Vibes","Cormorant Garamond",Georgia,serif;
+}
+html{background:#d3d4d4}
+body{color:var(--ink);background:radial-gradient(ellipse at top,#e2e3e3,transparent 55rem),#d3d4d4}
+h2,h3{font-family:var(--display);line-height:1.12;letter-spacing:-.025em}
+h2{font-size:clamp(1.9rem,5.4vw,3.3rem)}
+h3{font-size:clamp(1.32rem,3.6vw,1.95rem)}
+h2 em{font-style:normal}
+.mast{min-height:4rem;background:#082733;color:#f2d29b;border:1px solid #a27845;border-top:0;border-radius:0 0 .32rem .32rem;padding-inline:clamp(.65rem,2vw,1.1rem);box-shadow:0 5px 18px #071b2733}
+.monogram{color:#f1cb90}
+.language-control,.sound-control{background:#0a303f;color:#f2d9ac;border-color:#bf91578a}
+.sound-control[aria-pressed=true]{background:#ecc78a;color:#102832;border-color:#ecc78a}
+.language-control option,.music-status:not(:empty){color:#f6dfb2;background:#082733}
+:focus-visible{outline-color:#f5cd85}
+.folio-page{--trim:clamp(.43rem,1vw,.73rem);--corner:clamp(3.3rem,12vw,7.4rem);
+ position:relative;isolation:isolate;overflow:clip;margin-block:clamp(.95rem,3vw,1.8rem);
+ padding:clamp(1.35rem,4.3vw,3.7rem);
+ background-color:#05222e;
+ background-image:radial-gradient(ellipse at 50% 35%,#07334170 0,transparent 67%),
+ repeating-linear-gradient(45deg,transparent 0 13px,#010f1690 14px 15px,transparent 16px 28px),
+ repeating-linear-gradient(-45deg,transparent 0 13px,#010f1690 14px 15px,transparent 16px 28px);
+ border:1px solid #856b47;border-radius:.2rem;box-shadow:0 5px 14px #0a1a2940,0 17px 34px #13252b22;
+}
+.folio-page::before{content:"";position:absolute;inset:var(--trim);border:1px solid #ca9f64a6;outline:1px solid #8f67393b;outline-offset:3px;pointer-events:none;z-index:-1}
+.folio-page::after,.folio-number::after{content:"";position:absolute;width:var(--corner);height:calc(var(--corner)*.763);pointer-events:none;background:url("/art/gold-filigree.svg") center/contain no-repeat;opacity:.95}
+.folio-page::after{left:var(--trim);top:var(--trim);z-index:-1}
+.folio-number{position:absolute;right:calc(var(--trim) + .42rem);bottom:calc(var(--trim) + .15rem);color:#f0cb8d;font:600 .69rem/1.1 var(--display);letter-spacing:.08em;pointer-events:none;z-index:-1}
+.folio-number::after{right:calc(var(--trim)*-.65);bottom:calc(var(--trim)*-.3);transform:rotate(180deg);opacity:.84}
+.folio-page:is(.venue,.story){gap:clamp(1.25rem,5vw,3.4rem)}
+.folio-page :is(.subline,.place,.ceremony-summary,.ceremony-detail,.story-list p,.story-pages p,.dress-ceremony,.outfit-list dd,.dress-grid article>p:last-child,.person-note){color:#e3d6bc}
+.folio-page :is(.label,.hero-tag,.keepsake-countdown,.story-art figcaption,.ceremony-time,.dress-time,.outfit-list dt,.schedule-tag,.ceremony-note,.family-role){color:#f0ca8d}
+.folio-page :is(.label,.cover-kicker){font-family:var(--display);letter-spacing:.10em}
+.folio-page h2 em{color:#f1d199}
+.hero{grid-template-areas:"intro" "details" "art";gap:1rem;align-items:center;text-align:center;padding-top:clamp(1.5rem,5vw,4rem)}
+.hero h1{font:400 clamp(3.85rem,12.5vw,8.7rem)/.96 var(--script);letter-spacing:0;color:#f1c984;text-shadow:0 2px 0 #603715}
+.hero h1 i{color:#e2af6b;font:400 .62em/1 var(--script);padding-inline:.08em}
+.hero-intro{padding-block:.4rem .1rem}.hero-intro .invocation{color:#edcb9a}.hero-tag{font-family:var(--serif);font-size:clamp(1.08rem,3.4vw,1.5rem)}
+.event-facts>time{font-family:var(--display);color:#ffdf9b;font-size:clamp(.91rem,2.6vw,1.2rem)}.event-facts p{color:#e9d9bc}
+.hero-art{max-width:32rem;height:clamp(10.5rem,35vw,19rem);background:radial-gradient(ellipse,#30616b9c,transparent 75%);border:0;box-shadow:none;padding:.15rem 0 .05rem}
+.hero-art::before,.hero-art::after,.cover-seal,.cover-edition,.botanical{display:none!important}
+.hero-art img{max-height:calc(clamp(10.5rem,35vw,19rem) - 1.1rem);width:auto;max-width:100%;filter:drop-shadow(0 10px 10px #0010178c)}
+.hero-art figcaption{color:#f3d39f}.cover-etching{height:100%;opacity:.7}
+.cover-spark,.portrait-star{color:#f5ce8e}.hero-art .portrait-ring{inset:3% 20%;background:radial-gradient(ellipse,#3d737b60,transparent 76%)}
+.hero-actions{justify-content:center;gap:.42rem}.button{min-height:46px;border-color:#bd945c9e;background:#0e3442;color:#f8dfae}
+.button.primary{background:#eaca90;color:#112d39;border-color:#eaca90}
+@media(hover:hover){.button.primary:hover{background:#ffdda1}.button:hover,.sound-control:hover{box-shadow:0 0 0 2px #e7bd7780}}
+.schedule-sheet{padding:0;background:transparent;border:0;border-radius:0}.schedule-sheet::before,.schedule-sheet::after{display:none}
+.schedule .section-head{max-width:none;text-align:center}.schedule .subline{margin-inline:auto}
+.timeline-item{border-color:#c59b5d70}.ceremony-mark{color:#f4cd92}
+.ceremony-main summary,.story-more summary,#quizFeedback{color:#f4cd92}
+.venue-art img{border-color:#153e4a;outline-color:#b88c52}.venue-art figcaption{color:#ebd5a8}
+.dress-grid article,.family-grid article{background:#092934df;border-color:#c1955970}
+.family,.closing{background-color:#05222e;border-color:#856b47}
+.person-card,.person-pranali{--card:#0c3440;--accent:#f1ca90;color:#f2d29b;border-color:#c1955980}
+.person-pranali{--card:#123644}.person-interests,#quizQuestion{color:#e4d6bd}.person-name{font-family:var(--script);font-weight:400;font-size:clamp(2.6rem,7vw,3.95rem);letter-spacing:0}
+.person-card::before{border-color:#af87544d}.person-note{color:#ebd8b3}
+.quiz-choices button{color:#f1d39a;background:#0b303d}.quiz-choices button[aria-pressed=true]{color:#102b36;background:#efc584}
+.story-art{background:radial-gradient(ellipse,#2b596678,transparent 71%)}
+.story-list li::before{color:#e9bc79}
+.closing .button{background:#103542;border-color:#c69759;color:#f3d7a6}
+.footer{color:#39444a}.footer-mark,.hashtag,.footer-prompts,.back{color:#123846}
+.footer :focus-visible{outline-color:#715025}
+@media(min-width:53rem){
+ .hero{grid-template-areas:"intro art" "details art";grid-template-columns:1.15fr .85fr;column-gap:1.4rem;row-gap:.9rem}
+ .hero-intro{align-self:end}.hero-details{align-self:start}.hero-art{height:22rem}
+ .hero-art img{max-height:20.65rem}.cover-etching{width:min(100%,26rem)}
+}
+@media(max-width:40rem){
+ .wrap{width:min(70rem,calc(100% - max(.68rem,env(safe-area-inset-left)) - max(.68rem,env(safe-area-inset-right))))}
+ .folio-page{padding-inline:1.16rem}.hero{padding-top:1.45rem;gap:.72rem}
+ .hero h1{font-size:clamp(3.3rem,12.9vw,5.7rem)}
+ .hero-actions .button{font-size:.75rem;padding-inline:.45rem}.hero-actions .icon{width:.92rem;height:.92rem}
+ .folio-number{bottom:calc(var(--trim) + .16rem);right:calc(var(--trim) + .28rem);font-size:.59rem}
+ .timeline-item{grid-template-columns:3.8rem 1fr;gap:.55rem}.ceremony-time{font-size:.81rem}
+ .person-card summary{min-height:8.3rem}
+}
+@media(forced-colors:active){.hero h1,.hero h1 i{color:CanvasText;text-shadow:none}.folio-page::before{border:1px solid CanvasText}}
