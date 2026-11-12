@@ -24,6 +24,9 @@ const english = {
   language:'Language', music:'Music', play:'Play music', pause:'Pause music',
   loading:'Loading music…', musicError:'Music could not start. Tap again to retry.',
   thanks:'Thank you for sending us a little love!',
+  countdownUnit:'days until our celebration', countdownToday:'Today is our celebration!',
+  countdownPast:'Thank you for celebrating with us!',
+  quizCorrect:'Correct! More than a decade of us. ♥', quizWrong:'Not quite. Try another answer!',
 };
 const translatable = [...document.querySelectorAll('[data-i18n]')].map(el => ({el,html:el.innerHTML}));
 const images = [...document.querySelectorAll('[data-alt-key]')].map(el => ({el,alt:el.alt}));
@@ -32,6 +35,30 @@ let lang = 'en', playing = false, action = 0, message = '', hasCelebrated = fals
 const t = key => locales[lang]?.[key] || english[key] || '';
 const feedback = document.querySelector('#celebrateFeedback');
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+const quiz = document.querySelector('#coupleQuiz');
+const quizFeedback = document.querySelector('#quizFeedback');
+const quizButtons = [...quiz.querySelectorAll('[data-quiz]')];
+const countdown = document.querySelector('#countdown');
+let quizAnswer = null;
+const indiaDate = new Intl.DateTimeFormat('en-CA', {timeZone:event.timezone,year:'numeric',month:'2-digit',day:'2-digit'});
+const eventDay = Date.parse(event.date);
+const eventEnd = Date.parse(event.end + event.offset);
+
+function updateCountdown() {
+  const now = new Date();
+  const parts = Object.fromEntries(indiaDate.formatToParts(now).map(({type,value}) => [type,value]));
+  const localToday = Date.UTC(Number(parts.year),Number(parts.month)-1,Number(parts.day));
+  const days = Math.max(0,Math.round((eventDay-localToday)/86400000));
+  countdown.textContent = now.getTime() >= eventEnd ? t('countdownPast') :
+    days === 0 ? t('countdownToday') :
+    days === 1 && lang === 'en' ? '1 day until our celebration' :
+    `${new Intl.NumberFormat(langTags[lang]).format(days)} ${t('countdownUnit')}`;
+  countdown.hidden = false;
+}
+
+function showQuizFeedback() {
+  quizFeedback.textContent = quizAnswer === null ? '' : t(quizAnswer === '10' ? 'quizCorrect' : 'quizWrong');
+}
 
 function showMusic() {
   musicButton.setAttribute('aria-pressed', String(playing));
@@ -59,6 +86,8 @@ function applyLanguage(next) {
     time.textContent = new Intl.DateTimeFormat(langTags[lang], {hour:'numeric',minute:'2-digit',hour12:true,timeZone:event.timezone}).format(date);
   }
   if (hasCelebrated) feedback.textContent = t('thanks');
+  updateCountdown();
+  showQuizFeedback();
   showMusic();
   try { localStorage.setItem('engagement-language', lang); } catch { /* Private or offline preview. */ }
 }
@@ -99,6 +128,26 @@ let previous;
 try { previous = localStorage.getItem('engagement-language'); } catch { /* Storage is optional. */ }
 applyLanguage(previous || 'en');
 controls.hidden = false;
+quiz.hidden = false;
+for (const button of quizButtons) button.addEventListener('click', () => {
+  quizAnswer = button.dataset.quiz;
+  for (const choice of quizButtons) choice.setAttribute('aria-pressed', String(choice === button));
+  showQuizFeedback();
+});
+document.addEventListener('visibilitychange', () => { if (!document.hidden) updateCountdown(); });
+setInterval(() => { if (!document.hidden) updateCountdown(); }, 60000);
+
+// Enhancements never hide content: each chapter animates once as it enters.
+if (!reduce.matches && 'IntersectionObserver' in window) {
+  const chapters = new IntersectionObserver(entries => {
+    for (const entry of entries) if (entry.isIntersecting) {
+      entry.target.classList.add('chapter-in');
+      chapters.unobserve(entry.target);
+    }
+  }, {threshold:.12});
+  document.querySelectorAll('[data-chapter]').forEach(el => chapters.observe(el));
+  reduce.addEventListener('change', () => { if (reduce.matches) chapters.disconnect(); }, {once:true});
+}
 
 // Let browser navigation handle the hash and history. Put keyboard focus at the
 // heading so subsequent Tab and screen-reader navigation start in the section.

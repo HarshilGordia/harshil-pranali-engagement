@@ -9,3 +9,102 @@
 @media(max-width:24rem){.wrap{width:calc(100% - 1.5rem)}.hero{gap:.8rem}.hero-art img{max-height:12.7rem}.hero-actions{gap:.32rem}.hero-actions .button{padding-inline:.46rem;font-size:.76rem}.hero-actions .icon{width:.94rem;height:.94rem}.timeline-item{grid-template-columns:3.85rem 1fr}.ceremony-time{font-size:.83rem}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(forced-colors:active){.portrait-ring,.button,.dress-grid article,.family-grid article{border:1px solid CanvasText}}
+
+/* The invitation as an illustrated keepsake. */
+.keepsake-cover{isolation:isolate;position:relative}
+.keepsake-cover::before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:radial-gradient(ellipse at 78% 45%,#a5676727,transparent 62%)}
+.cover-kicker{display:inline-flex;align-items:center;gap:.65rem}
+.cover-kicker::before{content:"";height:1px;width:1.7rem;background:linear-gradient(90deg,transparent,var(--gold))}
+.keepsake-cover h1{background:linear-gradient(115deg,#e6bc80 15%,#fbe8ca 46%,#f9deb1 57%,#e5bc82 82%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+.cover-etching{position:absolute;inset:-2% 0 0;width:100%;height:100%;fill:none;stroke:#f4d6a2;stroke-width:.75;stroke-linecap:round;pointer-events:none;opacity:.6}
+.cover-etching .etching-base{opacity:.32}
+.cover-spark{position:absolute;z-index:2;color:#f9d69c;pointer-events:none}
+.spark-one{top:29%;right:7%;font-size:.9rem}
+.spark-two{left:11%;bottom:19%;font-size:.8rem}
+.keepsake-countdown{color:var(--gold);font-size:.79rem;font-weight:700;margin-top:.8rem}
+.keepsake-countdown::before{content:"✧";margin-inline-end:.42rem}
+.schedule-tag{color:#674456;font:500 italic clamp(1.1rem,2.5vw,1.6rem)/1.35 var(--serif);margin-top:.45rem}
+.schedule-sheet{overflow:clip}
+.schedule-sheet::after{content:"";position:absolute;pointer-events:none;inset:.45rem auto .45rem .45rem;width:2px;background:#b67b5c45;transform-origin:top}
+.ceremony-mark{display:none}
+.ceremony-note{color:#633b4b;margin-top:.75rem;border-inline-start:1px solid #a26a7760;padding-inline-start:.75rem;font-style:italic}
+.outfit-list{margin:.85rem 0 0;display:grid;gap:.55rem}
+.outfit-list div{border-top:1px solid var(--line);padding-top:.45rem}
+.outfit-list dt{color:var(--gold);font-size:.76rem;font-weight:700}
+.outfit-list dd{margin:0;color:var(--muted);font-size:.89rem}
+.dress-time{color:var(--gold);font-weight:700;font-size:.86rem;margin-top:.5rem}
+.dress-ceremony{color:var(--muted);font-size:.86rem}
+.family-grid article .family-role{color:var(--gold);font:700 .75rem/1.5 var(--sans);letter-spacing:.07em;margin-top:.4rem}
+.story-art figcaption{color:var(--gold);font:500 italic 1.15rem/1.35 var(--serif);text-align:center;margin-top:.55rem}
+.story-more summary,.person-card summary{list-style:none;cursor:pointer}
+.story-more summary::-webkit-details-marker,.person-card summary::-webkit-details-marker{display:none}
+.story-more{margin-top:.4rem}
+.story-more summary{display:inline-flex;align-items:center;gap:.45rem;min-height:44px;color:var(--gold);text-decoration:underline;text-underline-offset:.22em;font-weight:700;font-size:.85rem}
+.story-more[open] .icon,.person-card[open] .person-action .icon{rotate:45deg}
+.story-pages{padding:0 0 .6rem .85rem;border-inline-start:1px solid var(--line)}
+.story-pages p{color:var(--muted);margin:.6rem 0;font-size:.94rem}
+.story-pages p:last-child{font:500 italic 1.38rem/1.3 var(--serif);color:var(--gold)}
+.personalities .section-head h2{max-width:18ch}
+.person-grid{display:grid;gap:1rem;align-items:start}
+.person-card{--card:#f0e2d1;--card-accent:#6b3e50;--card-line:#74445b3e;position:relative;isolation:isolate;color:#33222a;background:var(--card);border:1px solid #eee2ce;border-radius:.8rem;box-shadow:0 16px 32px #180b143d;min-width:0}
+.person-pranali{--card:#f1dde2;--card-accent:#763a54;--card-line:#8a476139}
+.person-harshil{--card:#e2e9df;--card-accent:#315e4e;--card-line:#315e4e43}
+.person-card::before{content:"";position:absolute;inset:.35rem;border:1px solid var(--card-line);border-radius:.55rem;pointer-events:none}
+.person-card summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(60px,30%);gap:.8rem;align-items:center;min-height:10.25rem;padding:clamp(1.25rem,4vw,2.15rem);border-radius:.8rem}
+.person-card :focus-visible{outline-color:var(--card-accent);outline-offset:0}
+.person-copy{display:grid;gap:.2rem}
+.person-name{font:600 clamp(2.35rem,7vw,4.1rem)/1 var(--serif);letter-spacing:-.035em;color:#312029}
+.person-interests{font:600 .85rem/1.55 var(--sans);color:#4d4247}
+.person-action{display:flex;align-items:center;gap:.4rem;margin-top:.65rem;color:var(--card-accent);font-weight:800;font-size:.79rem;text-decoration:underline;text-underline-offset:.24em}
+.person-card:not([open]) .note-close,.person-card[open] .note-open{display:none}
+.person-emblem{width:100%;fill:none;stroke:var(--card-accent);stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round;transform-origin:50% 80%}
+.person-note{padding:0 clamp(1.25rem,4vw,2.15rem) 1.25rem;color:#493844}
+.person-note p{border-top:1px solid var(--card-line);padding-top:.75rem;font-size:.96rem}
+.couple-quiz{border:1px solid var(--line);border-radius:.8rem;margin-top:1.1rem;display:grid;gap:.7rem;padding:clamp(1rem,3vw,1.5rem);background:#1c0e1650}
+.couple-quiz h3{font-size:1.85rem}
+#quizQuestion{margin-top:.35rem;color:var(--muted);font-size:.95rem}
+.quiz-choices{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-choices button{min-height:44px;padding:.4rem .72rem;border:1px solid var(--line);border-radius:3rem;color:var(--ink);background:#fff1d009;font-size:.83rem;font-weight:700}
+.quiz-choices button[aria-pressed=true]{background:var(--gold);color:#38202a}
+#quizFeedback:not(:empty){margin-top:.4rem;color:var(--gold);font-size:.9rem}
+.footer-note{color:var(--muted);max-width:34rem;margin:.2rem auto .65rem}
+.footer-prompts{list-style:none;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1rem;font-size:.8rem;color:var(--gold)}
+.sound-bars{display:none;align-items:center;gap:2px;width:12px;height:13px}
+.sound-control[aria-pressed=true] .sound-bars{display:flex}
+.sound-bars i{width:2px;height:9px;background:currentColor;border-radius:2px;transform:scaleY(.5)}
+@media(min-width:36rem){
+ .person-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .timeline-item{grid-template-columns:minmax(4.35rem,13%) 2.5rem 1fr;align-items:start}
+ .ceremony-mark{display:grid;grid-column:2;grid-row:1;place-items:center;width:2.1rem;height:2.1rem;border-radius:50%;border:1px solid #90576860;color:#75364c;font-size:1rem}
+ .ceremony-time{grid-row:1;grid-column:1}.ceremony-main{grid-row:1;grid-column:3}
+ .couple-quiz{grid-template-columns:1.2fr 1fr;align-items:center}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .person-card{transition:transform .35s cubic-bezier(.2,.8,.3,1),box-shadow .35s}
+ .person-card:hover{transform:translateY(-4px);box-shadow:0 20px 46px #12081066}
+ .person-emblem{transition:transform .42s cubic-bezier(.2,.8,.3,1)}
+ .person-card:hover .person-emblem{transform:rotate(-5deg) scale(1.055)}
+}
+@media(prefers-reduced-motion:no-preference){
+ .keepsake-cover h1{animation:foil-pass 2.6s .35s ease-out both}
+ .hero-intro,.hero-details,.hero-art{animation:cover-arrive .85s cubic-bezier(.2,.72,.28,1) both}
+ .hero-art{animation-delay:.08s}.hero-details{animation-delay:.16s}
+ .cover-etching path{stroke-dasharray:1;animation:line-write 1.85s .12s ease-out both}
+ .cover-spark{animation:cover-twinkle 3.2s .5s ease-in-out 2 both}
+ .spark-two{animation-delay:1.05s}
+ .chapter-in{animation:page-turn .65s cubic-bezier(.2,.72,.28,1) both}
+ .schedule-sheet.chapter-in::after{animation:spine-draw .95s .12s ease-out both}
+ .timeline-item.chapter-in .ceremony-mark{animation:seal-in .65s .08s cubic-bezier(.2,.8,.28,1.22) both}
+ .person-card[open] .person-note,.story-more[open] .story-pages,.ceremony-main details[open] .ceremony-detail{animation:page-turn .36s ease-out both}
+ .person-card[open] .person-emblem{animation:seal-in .55s ease-out both}
+ .sound-bars i{animation:equalise .72s ease-in-out 6 alternate both}.sound-bars i:nth-child(2){animation-delay:.16s}.sound-bars i:nth-child(3){animation-delay:.32s}
+}
+@keyframes cover-arrive{from{transform:translateY(12px);opacity:.72}to{transform:translateY(0);opacity:1}}
+@keyframes foil-pass{from{background-position:100% 50%}to{background-position:16% 50%}}
+@keyframes line-write{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes cover-twinkle{0%,100%{opacity:.5;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes page-turn{from{transform:translateY(8px);opacity:.76}to{transform:translateY(0);opacity:1}}
+@keyframes spine-draw{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes seal-in{from{transform:scale(.9) rotate(-5deg);opacity:.75}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes equalise{from{transform:scaleY(.38)}to{transform:scaleY(1)}}
+@media(forced-colors:active){.keepsake-cover h1{background:none;color:CanvasText}}
