@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f6f0e4">
+<meta name="theme-color" content="#041e2a">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <title>Harshil &amp; Pranali · Engagement · 27 December 2026</title>
 <meta name="description" content="Harshil &amp; Pranali invite you to celebrate their engagement on {{date}} at {{venue}}.">
@@ -15,6 +15,7 @@
 <meta property="og:image:alt" content="Illustrated invitation for Harshil and Pranali, 27 December 2026, Sai Palace, Mira Road">
 <link rel="icon" href="/art/monogram.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/src/style.css">
+<link rel="stylesheet" href="/src/navy-folio.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=Manrope:wght@400;500;600;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600&amp;family=Noto+Sans+Gujarati:wght@400;500;600&amp;display=swap" rel="stylesheet">
@@ -29,13 +30,24 @@
     <button class="sound-control" id="musicToggle" type="button" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-music"></use></svg><span data-i18n="music">Music</span><span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
     <span id="musicStatus" class="music-status" role="status"></span>
   </div>
-  <audio id="engagementMusic" preload="none" loop></audio>
+  <audio id="engagementMusic" preload="none" loop playsinline></audio>
 </header><main id="main" tabindex="-1">
-<section class="hero wrap keepsake-cover" aria-labelledby="invitationTitle">
+<section class="hero wrap keepsake-cover folio-page" aria-labelledby="invitationTitle"><span class="folio-number" aria-hidden="true">01</span>
  <div class="hero-intro"><p class="invocation" lang="sa">॥ श्री गणेशाय नमः ॥</p>
  <p data-i18n="occasion" class="label cover-kicker">An engagement invitation</p>
  <h1 id="invitationTitle" lang="en" translate="no">Harshil <i>&amp;</i> Pranali</h1>
  <p data-i18n="heroTag" class="hero-tag">Same souls. A beautiful new beginning.</p>
+ </div>
+
+ <div class="hero-details">
+  <div class="event-facts"><time datetime="{{dateIso}}" data-i18n="date">{{date}}</time>
+  <p><span data-i18n="venueShort">{{venue}}</span><span class="fact-dot" aria-hidden="true">·</span><time data-event-time="0" datetime="{{iso0}}">{{time0}}</time> <span>IST</span></p></div>
+  <div class="actions hero-actions">
+    <a href="#celebrations" class="button primary" ><svg class="icon" aria-hidden="true"><use href="#i-down"></use></svg><span data-i18n="schedule">Schedule</span></a>
+    <a href="{{directions}}" class="button " target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg><span data-i18n="directions">Directions</span></a>
+    <a href="{{calendar}}" class="button " download="harshil-pranali-engagement.ics"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg><span data-i18n="calendar">Save the date</span></a>
+  </div>
+  <p class="keepsake-countdown" id="countdown" hidden></p>
  </div>
  <figure class="hero-art">
    <div class="portrait-ring"></div>
@@ -48,17 +60,7 @@
    <img src="/art/hero-420.webp" srcset="/art/hero-420.webp 420w, /art/hero-680.webp 680w, /art/hero-1000.webp 1000w" sizes="(max-width: 600px) 290px, (max-width: 850px) 390px, 510px" width="1354" height="1162" alt="Harshil and Pranali engagement illustration" data-alt-key="altHero" decoding="async" loading="eager" fetchpriority="high">
    <figcaption aria-hidden="true"><span></span> 27 <b>·</b> 12 <b>·</b> 26 <span></span></figcaption>
  </figure>
- <div class="hero-details">
-  <div class="event-facts"><time datetime="{{dateIso}}" data-i18n="date">{{date}}</time>
-  <p><span data-i18n="venueShort">{{venue}}</span><span class="fact-dot" aria-hidden="true">·</span><time data-event-time="0" datetime="{{iso0}}">{{time0}}</time> <span>IST</span></p></div>
-  <div class="actions hero-actions">
-    <a href="#celebrations" class="button primary" ><svg class="icon" aria-hidden="true"><use href="#i-down"></use></svg><span data-i18n="schedule">Schedule</span></a>
-    <a href="{{directions}}" class="button " target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg><span data-i18n="directions">Directions</span></a>
-    <a href="{{calendar}}" class="button " download="harshil-pranali-engagement.ics"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg><span data-i18n="calendar">Save the date</span></a>
-  </div>
-  <p class="keepsake-countdown" id="countdown" hidden></p>
- </div>
-</section><section class="schedule wrap" id="celebrations" aria-labelledby="schedule-title">
+</section><section class="schedule wrap folio-page" id="celebrations" aria-labelledby="schedule-title"><span class="folio-number" aria-hidden="true">02</span>
  <div class="schedule-sheet" data-chapter>
  <header class="section-head"><p data-i18n="celebration" class="label">The celebration</p><h2 data-i18n="day" id="schedule-title" tabindex="-1">The day at a glance</h2>
  <p data-i18n="traditionsTag" class="schedule-tag">Two families. Two traditions. One beautiful beginning.</p>
@@ -80,28 +82,28 @@
  <div class="ceremony-detail"><img src="/art/sangeet-400.webp" srcset="/art/sangeet-400.webp 400w, /art/sangeet-720.webp 720w" sizes="(max-width: 600px) 250px, 300px" width="1312" height="1199" alt="Ring Ceremony and Sangeet illustration" data-alt-key="altSangeet" decoding="async" loading="lazy" >
  <div><p data-i18n="ourCelebration" class="label">Our celebration</p><p data-i18n="sangeetBody">As evening arrives, we move into the moment we have been waiting for: the rings, the music, the dancing and everyone we love celebrating beside us.</p><p data-i18n="sangeetBodyNote" class="ceremony-note">Come ready for romance, music, joyful dancing and just the right touch of Bollywood magic.</p></div></div></details></div></li></ol></div>
 </section>
-<section class="venue section wrap" data-chapter id="venue" aria-labelledby="venue-title">
+<section class="venue section wrap folio-page" data-chapter id="venue" aria-labelledby="venue-title"><span class="folio-number" aria-hidden="true">03</span>
  <div class="venue-copy"><p data-i18n="theVenue" class="label">The venue</p>
  <h2 id="venue-title" tabindex="-1" lang="en">Sai Palace <em>Hotel &amp; Gardens</em></h2>
  <p data-i18n="miraRoad" class="place">Mira Road</p>
  <div class="actions"><a href="{{directions}}" class="button primary" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg><span data-i18n="maps">Open in Google Maps</span></a><a href="{{calendar}}" class="button " download="harshil-pranali-engagement.ics"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg><span data-i18n="calendar">Save the date</span></a></div></div>
  <figure class="venue-art"><img src="/art/venue-420.webp" srcset="/art/venue-420.webp 420w, /art/venue-760.webp 760w" sizes="(max-width: 700px) 86vw, 405px" width="1151" height="1367" alt="Illustrated scene of Sai Palace at night" data-alt-key="altVenue" decoding="async" loading="lazy" ><figcaption data-i18n="illustration">Venue illustration</figcaption></figure>
 </section>
-<section class="dress section wrap" data-chapter id="dress" aria-labelledby="dress-title">
+<section class="dress section wrap folio-page" data-chapter id="dress" aria-labelledby="dress-title"><span class="folio-number" aria-hidden="true">04</span>
  <header class="section-head"><p data-i18n="dressCode" class="label">Dress code</p><h2 data-i18n="dressTitle" id="dress-title" tabindex="-1">What to wear</h2><p data-i18n="dressNote" class="subline">Two looks for the day, if you’d like inspiration.</p></header>
  <div class="dress-grid">
  <article><span class="swatch swatch-emerald" aria-hidden="true"></span><p data-i18n="early" class="label">Afternoon ceremonies</p><h3 data-i18n="traditional">Traditional Indian</h3><p data-i18n="dressTime0" class="dress-time">04 PM – 08 PM</p><p data-i18n="dressCeremony0" class="dress-ceremony">Sakharpuda · Gol Dhana &amp; Chunari</p><dl class="outfit-list"><div><dt data-i18n="dressWomen">Women</dt><dd data-i18n="dressWomen0">Saree, lehenga or elegant traditional wear</dd></div><div><dt data-i18n="dressMen">Men</dt><dd data-i18n="dressMen0">Kurta, bandhgala or traditional Indian wear</dd></div></dl><p data-i18n="traditionalIdeas">Sarees, lehengas, kurtas or bandhgalas.</p></article>
  <article><span class="swatch swatch-rose" aria-hidden="true"></span><p data-i18n="evening" class="label">Evening celebration</p><h3 data-i18n="glam">Bollywood Glam</h3><p data-i18n="dressTime1" class="dress-time">08 PM onwards</p><p data-i18n="dressCeremony1" class="dress-ceremony">Ring Ceremony &amp; Sangeet</p><dl class="outfit-list"><div><dt data-i18n="dressWomen">Women</dt><dd data-i18n="dressWomen1">Glamorous Indian or Indo-Western evening wear</dd></div><div><dt data-i18n="dressMen">Men</dt><dd data-i18n="dressMen1">Indo-Western, bandhgalas or sharp evening looks</dd></div></dl><p data-i18n="glamIdeas">Evening Indian wear or Indo-Western looks.</p></article>
  </div>
 </section>
-<section class="family section wrap" data-chapter id="family" aria-labelledby="family-title">
+<section class="family section wrap folio-page" data-chapter id="family" aria-labelledby="family-title"><span class="folio-number" aria-hidden="true">05</span>
  <header class="section-head"><p data-i18n="blessings" class="label">With the blessings of our families</p><h2 data-i18n="familyTitle" id="family-title" tabindex="-1">Two families, one celebration</h2><p data-i18n="familyIntro" class="subline">Joyfully inviting you to celebrate this beautiful new beginning with Harshil &amp; Pranali.</p></header>
  <div class="family-grid">
   <article><span class="family-mark" aria-hidden="true">G</span><h3 lang="en" translate="no">Goradia</h3><p data-i18n="parents" class="family-role">Parents</p><p lang="en" translate="no">Pankaj Goradia <i>&amp;</i> Rupa Goradia</p></article>
   <article><span class="family-mark" aria-hidden="true">P</span><h3 lang="en" translate="no">Parab</h3><p data-i18n="parents" class="family-role">Parents</p><p lang="en" translate="no">Mangesh Parab <i>&amp;</i> Rupali Parab</p></article>
  </div>
 </section>
-<section id="personalities" class="personalities section wrap" aria-labelledby="personalities-title">
+<section id="personalities" class="personalities section wrap folio-page" aria-labelledby="personalities-title"><span class="folio-number" aria-hidden="true">06</span>
  <header class="section-head" data-chapter><p data-i18n="keepsakeLabel" class="label">Between the big moments</p><h2 data-i18n="keepsakeTitle" id="personalities-title" tabindex="-1">The little things that make us, us</h2><p data-i18n="keepsakeIntro" class="subline">Two little notes from the people behind the invitation.</p></header>
  <div class="person-grid"><details class="person-card person-harshil" data-chapter>
  <summary><span class="person-copy"><span class="person-name" lang="en" translate="no">Harshil</span><span data-i18n="harshilInterests" class="person-interests">Football · Fitness · Coffee</span><span class="person-action"><span class="note-open" data-i18n="openNote">Open the note</span><span class="note-close" data-i18n="closeNote">Close the note</span><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg></span></span>
@@ -114,7 +116,7 @@
  <div><p data-i18n="quizLabel" class="label">A little guess</p><h3 data-i18n="quizTitle">How well do you know us?</h3><p data-i18n="quizQuestion" id="quizQuestion">How long have we been together?</p></div>
  <div class="quiz-interaction"><div class="quiz-choices" role="group" aria-labelledby="quizQuestion"><button data-i18n="quiz5" type="button" data-quiz="5" aria-pressed="false">5+ years</button><button data-i18n="quiz10" type="button" data-quiz="10" aria-pressed="false">10+ years</button><button data-i18n="quiz15" type="button" data-quiz="15" aria-pressed="false">15+ years</button></div>
  <p id="quizFeedback" role="status"></p></div></div></section>
-<section class="story section wrap" data-chapter id="story" aria-labelledby="story-title">
+<section class="story section wrap folio-page" data-chapter id="story" aria-labelledby="story-title"><span class="folio-number" aria-hidden="true">07</span>
  <figure class="story-art" data-chapter><img src="/art/story-420.webp" srcset="/art/story-420.webp 420w, /art/story-760.webp 760w" sizes="(max-width: 700px) 86vw, 445px" width="1224" height="1285" alt="Harshil and Pranali story illustration" data-alt-key="altStory" decoding="async" loading="lazy" ><figcaption data-i18n="storyCaption">From neighbours to forever ♥</figcaption></figure>
  <div class="story-copy"><p data-i18n="ourStory" class="label">Our story</p><h2 data-i18n="storyTitle" id="story-title" tabindex="-1">From neighbours to forever</h2>
  <ol class="story-list"><li><h3 data-i18n="storyOne">It started close to home</h3><p data-i18n="storyOneBody">We began as neighbours. Somewhere along the way, we became each other’s favourite person.</p></li>
@@ -123,7 +125,7 @@
  <details class="story-more"><summary><span data-i18n="fullStory">Read the full story</span><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary><div class="story-pages"><p data-i18n="storyOpening">What began close to home grew into a love that carried us through every season, every distance and every dream.</p><p data-i18n="storyDistance">Across different countries and changing routines, we found our way back to one another in countless calls, little traditions and memories that made the miles feel smaller.</p><p data-i18n="storyForever">Now, after more than a decade of growing together, we cannot wait to bring our families, traditions and favourite people into one room to celebrate the beginning of forever.</p><p data-i18n="storySignoff">The distance ends here. The next chapter begins together. ♥</p></div></details>
  </div>
 </section>
-<section class="closing section wrap" data-chapter aria-labelledby="closing-title">
+<section class="closing section wrap folio-page" data-chapter aria-labelledby="closing-title"><span class="folio-number" aria-hidden="true">08</span>
  <p data-i18n="note" class="label">A note from us</p><h2 data-i18n="sweet" id="closing-title">Come ready for <em>Sweet Caroline.</em></h2>
  <p data-i18n="sing" class="subline">There’s one song we’d love everyone to sing with us. Give it a listen before the evening.</p>
  <div class="actions"><a href="https://www.youtube.com/watch?v=ty1dwBCR6D0" class="button " target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg><span data-i18n="youtube">Listen on YouTube</span></a>
