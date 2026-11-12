@@ -1,6 +1,11 @@
 // AudioBufferSourceNode wraps within a decoded buffer, without a network seek at
 // the loop point. The MP3 is also usable by the native player as a fallback.
 export function createSoundtrackPlayer(media, volume = 0.42) {
+  // A direct, user-initiated media.play() is the most reliable phone path.
+  // iPadOS can identify as a Mac, so include its touch-capable desktop UA.
+  const useNativeFirst = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+    window.matchMedia('(pointer: coarse)').matches;
   let context, gain, source, buffer, loadedUrl, pending, request;
   let offset = 0, startedAt = 0, wanted = false, revision = 0;
 
@@ -28,7 +33,7 @@ export function createSoundtrackPlayer(media, volume = 0.42) {
     const isCurrent = () => id === revision;
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     try {
-      if (AudioContext) {
+      if (!useNativeFirst && AudioContext) {
         context ||= new AudioContext();
         if (!gain) {
           gain = context.createGain();
@@ -52,6 +57,7 @@ export function createSoundtrackPlayer(media, volume = 0.42) {
         }
         const [, decoded] = await Promise.all([resumed, pending]);
         if (!isCurrent()) return false;
+        if (context.state !== 'running') throw new Error('Audio context did not start');
         buffer ||= decoded;
         request = undefined;
         pending = undefined;
@@ -82,7 +88,8 @@ export function createSoundtrackPlayer(media, volume = 0.42) {
         media.load();
       }
       loadedUrl = url;
-      media.volume = volume;
+      media.muted = false;
+      media.volume = useNativeFirst ? Math.max(volume, 0.7) : volume;
       await media.play();
       return isCurrent();
     } catch {

@@ -255,3 +255,19 @@ h3 { font-size: clamp(1.9rem,4vw,2.6rem); line-height: 1.16; }
  .hero-art img { max-height: clamp(14rem,36svh,24rem); }
 }
 @media(prefers-reduced-motion:reduce) { .hero-scroll-guide__arrow { animation: none; } }
+
+/* Mark the existing section boundaries without changing their spacing. */
+.site-shell > main > .section::before,
+.site-shell > main::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  width: min(84%, 46rem);
+  height: .65rem;
+  margin-inline: auto;
+  background: linear-gradient(45deg, var(--gold-soft), var(--gold)) center / .65rem .65rem no-repeat,
+              linear-gradient(90deg, transparent, var(--gold), transparent) center / 100% 1px no-repeat;
+  clip-path: polygon(0 39%, calc(50% - .32rem) 39%, 50% 0, calc(50% + .32rem) 39%, 100% 39%, 100% 61%, calc(50% + .32rem) 61%, 50% 100%, calc(50% - .32rem) 61%, 0 61%);
+  pointer-events: none;
+}
+.site-shell > main > .section::before { top: 0; }
